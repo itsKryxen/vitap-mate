@@ -1,25 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'vtop_user_provider.dart';
+part of 'controller.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$vtopUserHash() => r'57a9f9df3baeee6c8ab01dd18697ce25e6f80eda';
+String _$backgroundSyncHash() => r'1c73ddb7262ce3a418c8757a6f294d3ca600d4a5';
 
-/// See also [VtopUser].
-@ProviderFor(VtopUser)
-final vtopUserProvider =
-    AsyncNotifierProvider<VtopUser, VtopUserEntity>.internal(
-      VtopUser.new,
-      name: r'vtopUserProvider',
+/// See also [BackgroundSync].
+@ProviderFor(BackgroundSync)
+final backgroundSyncProvider =
+    AsyncNotifierProvider<BackgroundSync, SyncState>.internal(
+      BackgroundSync.new,
+      name: r'backgroundSyncProvider',
       debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product') ? null : _$vtopUserHash,
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$backgroundSyncHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );
 
-typedef _$VtopUser = AsyncNotifier<VtopUserEntity>;
+typedef _$BackgroundSync = AsyncNotifier<SyncState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
