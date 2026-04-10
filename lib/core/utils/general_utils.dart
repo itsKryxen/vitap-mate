@@ -22,7 +22,7 @@ String commonErrorMessage(Object e) {
   } else if (e == VtopError.networkError() || e is ClientException) {
     return "You're offline. Please check your connection and try again by refreshing.";
   } else if (e is FeatureDisabledException) {
-    return 'This feature is currently disabled. Please try again in a while';
+    return 'Vitap Mate has been discontinued. Thank you for being part of it.';
   } else {
     return "Something went wrong. Please try reopening the app.";
   }

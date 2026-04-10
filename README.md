@@ -5,6 +5,7 @@
 
 This app is archived.
 
+- The app is **discontinued on the Google Play Store**
 - There will be **no further updates published to the Google Play Store**
 - Source code remains available for reference and community forks
 - No official feature development is planned

@@ -25,8 +25,8 @@ class Gb extends _$Gb {
     var userAttr = {"id": user.username, "appVersionCode": appVersionCode};
     GrowthBookSDK gb =
         await GBSDKBuilderApp(
-          hostURL: 'https://api-gb.kryxen.dev/',
-          apiKey: kDebugMode ? "sdk-8AKDpwpeGLRaImnj" : "sdk-mkfOz851tHlxJRM",
+          hostURL: '',
+          apiKey: kDebugMode ? "sdk-" : "sdk-",
           attributes: userAttr,
           growthBookTrackingCallBack: (trackData) {},
           backgroundSync: true,
