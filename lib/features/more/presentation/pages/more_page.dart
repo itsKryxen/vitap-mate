@@ -46,16 +46,16 @@ class MorePage extends HookConsumerWidget {
                 title: const Text('Grade History'),
                 subtitle: const Text('View complete grade history'),
                 suffix: const Icon(FIcons.chevronRight),
-                onPress:
-                    () => GoRouter.of(context).pushNamed(Paths.gradeHistory),
+                onPress: () =>
+                    GoRouter.of(context).pushNamed(Paths.gradeHistory),
               ),
               FTile(
                 prefix: const Icon(FIcons.calendarDays),
                 title: const Text('Exam Schedule'),
                 subtitle: const Text('View your exam schedule'),
                 suffix: const Icon(FIcons.chevronRight),
-                onPress:
-                    () => GoRouter.of(context).pushNamed(Paths.examSchedule),
+                onPress: () =>
+                    GoRouter.of(context).pushNamed(Paths.examSchedule),
               ),
             ],
           ),

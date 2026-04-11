@@ -2413,124 +2413,124 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(debugName: "vtop_config_default", argNames: []);
 
   RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_ArcJar =>
-      wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcJar;
+  get rust_arc_increment_strong_count_ArcJar => wire
+      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcJar;
 
   RustArcDecrementStrongCountFnType
-  get rust_arc_decrement_strong_count_ArcJar =>
-      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcJar;
+  get rust_arc_decrement_strong_count_ArcJar => wire
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcJar;
 
   RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_SessionManager =>
-      wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSessionManager;
+  get rust_arc_increment_strong_count_SessionManager => wire
+      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSessionManager;
 
   RustArcDecrementStrongCountFnType
-  get rust_arc_decrement_strong_count_SessionManager =>
-      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSessionManager;
+  get rust_arc_decrement_strong_count_SessionManager => wire
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSessionManager;
 
   RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_VtopClient =>
-      wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopClient;
+  get rust_arc_increment_strong_count_VtopClient => wire
+      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopClient;
 
   RustArcDecrementStrongCountFnType
-  get rust_arc_decrement_strong_count_VtopClient =>
-      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopClient;
+  get rust_arc_decrement_strong_count_VtopClient => wire
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopClient;
 
   RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_VtopClientBuilder =>
-      wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopClientBuilder;
+  get rust_arc_increment_strong_count_VtopClientBuilder => wire
+      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopClientBuilder;
 
   RustArcDecrementStrongCountFnType
-  get rust_arc_decrement_strong_count_VtopClientBuilder =>
-      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopClientBuilder;
+  get rust_arc_decrement_strong_count_VtopClientBuilder => wire
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopClientBuilder;
 
   RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_VtopResult =>
-      wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResult;
+  get rust_arc_increment_strong_count_VtopResult => wire
+      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResult;
 
   RustArcDecrementStrongCountFnType
-  get rust_arc_decrement_strong_count_VtopResult =>
-      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResult;
+  get rust_arc_decrement_strong_count_VtopResult => wire
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResult;
 
   RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_VtopResultAttendanceData =>
-      wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultAttendanceData;
+  get rust_arc_increment_strong_count_VtopResultAttendanceData => wire
+      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultAttendanceData;
 
   RustArcDecrementStrongCountFnType
-  get rust_arc_decrement_strong_count_VtopResultAttendanceData =>
-      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultAttendanceData;
+  get rust_arc_decrement_strong_count_VtopResultAttendanceData => wire
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultAttendanceData;
 
   RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_VtopResultExamScheduleData =>
-      wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultExamScheduleData;
+  get rust_arc_increment_strong_count_VtopResultExamScheduleData => wire
+      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultExamScheduleData;
 
   RustArcDecrementStrongCountFnType
-  get rust_arc_decrement_strong_count_VtopResultExamScheduleData =>
-      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultExamScheduleData;
+  get rust_arc_decrement_strong_count_VtopResultExamScheduleData => wire
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultExamScheduleData;
 
   RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_VtopResultFullAttendanceData =>
-      wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultFullAttendanceData;
+  get rust_arc_increment_strong_count_VtopResultFullAttendanceData => wire
+      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultFullAttendanceData;
 
   RustArcDecrementStrongCountFnType
-  get rust_arc_decrement_strong_count_VtopResultFullAttendanceData =>
-      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultFullAttendanceData;
+  get rust_arc_decrement_strong_count_VtopResultFullAttendanceData => wire
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultFullAttendanceData;
 
   RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_VtopResultGradeDetailsData =>
-      wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultGradeDetailsData;
+  get rust_arc_increment_strong_count_VtopResultGradeDetailsData => wire
+      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultGradeDetailsData;
 
   RustArcDecrementStrongCountFnType
-  get rust_arc_decrement_strong_count_VtopResultGradeDetailsData =>
-      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultGradeDetailsData;
+  get rust_arc_decrement_strong_count_VtopResultGradeDetailsData => wire
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultGradeDetailsData;
 
   RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_VtopResultGradeHistoryData =>
-      wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultGradeHistoryData;
+  get rust_arc_increment_strong_count_VtopResultGradeHistoryData => wire
+      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultGradeHistoryData;
 
   RustArcDecrementStrongCountFnType
-  get rust_arc_decrement_strong_count_VtopResultGradeHistoryData =>
-      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultGradeHistoryData;
+  get rust_arc_decrement_strong_count_VtopResultGradeHistoryData => wire
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultGradeHistoryData;
 
   RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_VtopResultGradeViewData =>
-      wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultGradeViewData;
+  get rust_arc_increment_strong_count_VtopResultGradeViewData => wire
+      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultGradeViewData;
 
   RustArcDecrementStrongCountFnType
-  get rust_arc_decrement_strong_count_VtopResultGradeViewData =>
-      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultGradeViewData;
+  get rust_arc_decrement_strong_count_VtopResultGradeViewData => wire
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultGradeViewData;
 
   RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_VtopResultMarksData =>
-      wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultMarksData;
+  get rust_arc_increment_strong_count_VtopResultMarksData => wire
+      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultMarksData;
 
   RustArcDecrementStrongCountFnType
-  get rust_arc_decrement_strong_count_VtopResultMarksData =>
-      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultMarksData;
+  get rust_arc_decrement_strong_count_VtopResultMarksData => wire
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultMarksData;
 
   RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_VtopResultSemesterData =>
-      wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultSemesterData;
+  get rust_arc_increment_strong_count_VtopResultSemesterData => wire
+      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultSemesterData;
 
   RustArcDecrementStrongCountFnType
-  get rust_arc_decrement_strong_count_VtopResultSemesterData =>
-      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultSemesterData;
+  get rust_arc_decrement_strong_count_VtopResultSemesterData => wire
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultSemesterData;
 
   RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_VtopResultTimetableData =>
-      wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultTimetableData;
+  get rust_arc_increment_strong_count_VtopResultTimetableData => wire
+      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultTimetableData;
 
   RustArcDecrementStrongCountFnType
-  get rust_arc_decrement_strong_count_VtopResultTimetableData =>
-      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultTimetableData;
+  get rust_arc_decrement_strong_count_VtopResultTimetableData => wire
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultTimetableData;
 
   RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_VtopResultVecU8 =>
-      wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultVecu8;
+  get rust_arc_increment_strong_count_VtopResultVecU8 => wire
+      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultVecu8;
 
   RustArcDecrementStrongCountFnType
-  get rust_arc_decrement_strong_count_VtopResultVecU8 =>
-      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultVecu8;
+  get rust_arc_decrement_strong_count_VtopResultVecU8 => wire
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerVtopResultVecu8;
 
   @protected
   AnyhowException dco_decode_AnyhowException(dynamic raw) {
@@ -2941,13 +2941,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   BridgeLogEntry dco_decode_bridge_log_entry(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 4)
-      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
+    if (arr.length != 5)
+      throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
     return BridgeLogEntry(
       level: dco_decode_bridge_log_level(arr[0]),
       source: dco_decode_String(arr[1]),
       message: dco_decode_String(arr[2]),
-      timestampMillis: dco_decode_u_64(arr[3]),
+      caller: dco_decode_String(arr[3]),
+      timestampMillis: dco_decode_u_64(arr[4]),
     );
   }
 
@@ -3978,11 +3979,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     var var_level = sse_decode_bridge_log_level(deserializer);
     var var_source = sse_decode_String(deserializer);
     var var_message = sse_decode_String(deserializer);
+    var var_caller = sse_decode_String(deserializer);
     var var_timestampMillis = sse_decode_u_64(deserializer);
     return BridgeLogEntry(
       level: var_level,
       source: var_source,
       message: var_message,
+      caller: var_caller,
       timestampMillis: var_timestampMillis,
     );
   }
@@ -5231,6 +5234,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_bridge_log_level(self.level, serializer);
     sse_encode_String(self.source, serializer);
     sse_encode_String(self.message, serializer);
+    sse_encode_String(self.caller, serializer);
     sse_encode_u_64(self.timestampMillis, serializer);
   }
 
@@ -5889,11 +5893,10 @@ class VtopClientBuilderImpl extends RustOpaque implements VtopClientBuilder {
         RustLib.instance.api.rust_arc_increment_strong_count_VtopClientBuilder,
     rustArcDecrementStrongCount:
         RustLib.instance.api.rust_arc_decrement_strong_count_VtopClientBuilder,
-    rustArcDecrementStrongCountPtr:
-        RustLib
-            .instance
-            .api
-            .rust_arc_decrement_strong_count_VtopClientBuilderPtr,
+    rustArcDecrementStrongCountPtr: RustLib
+        .instance
+        .api
+        .rust_arc_decrement_strong_count_VtopClientBuilderPtr,
   );
 
   Future<VtopClient> build({
@@ -6015,21 +6018,18 @@ class VtopResultAttendanceDataImpl extends RustOpaque
   ) : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
 
   static final _kStaticData = RustArcStaticData(
-    rustArcIncrementStrongCount:
-        RustLib
-            .instance
-            .api
-            .rust_arc_increment_strong_count_VtopResultAttendanceData,
-    rustArcDecrementStrongCount:
-        RustLib
-            .instance
-            .api
-            .rust_arc_decrement_strong_count_VtopResultAttendanceData,
-    rustArcDecrementStrongCountPtr:
-        RustLib
-            .instance
-            .api
-            .rust_arc_decrement_strong_count_VtopResultAttendanceDataPtr,
+    rustArcIncrementStrongCount: RustLib
+        .instance
+        .api
+        .rust_arc_increment_strong_count_VtopResultAttendanceData,
+    rustArcDecrementStrongCount: RustLib
+        .instance
+        .api
+        .rust_arc_decrement_strong_count_VtopResultAttendanceData,
+    rustArcDecrementStrongCountPtr: RustLib
+        .instance
+        .api
+        .rust_arc_decrement_strong_count_VtopResultAttendanceDataPtr,
   );
 }
 
@@ -6047,21 +6047,18 @@ class VtopResultExamScheduleDataImpl extends RustOpaque
   ) : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
 
   static final _kStaticData = RustArcStaticData(
-    rustArcIncrementStrongCount:
-        RustLib
-            .instance
-            .api
-            .rust_arc_increment_strong_count_VtopResultExamScheduleData,
-    rustArcDecrementStrongCount:
-        RustLib
-            .instance
-            .api
-            .rust_arc_decrement_strong_count_VtopResultExamScheduleData,
-    rustArcDecrementStrongCountPtr:
-        RustLib
-            .instance
-            .api
-            .rust_arc_decrement_strong_count_VtopResultExamScheduleDataPtr,
+    rustArcIncrementStrongCount: RustLib
+        .instance
+        .api
+        .rust_arc_increment_strong_count_VtopResultExamScheduleData,
+    rustArcDecrementStrongCount: RustLib
+        .instance
+        .api
+        .rust_arc_decrement_strong_count_VtopResultExamScheduleData,
+    rustArcDecrementStrongCountPtr: RustLib
+        .instance
+        .api
+        .rust_arc_decrement_strong_count_VtopResultExamScheduleDataPtr,
   );
 }
 
@@ -6079,21 +6076,18 @@ class VtopResultFullAttendanceDataImpl extends RustOpaque
   ) : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
 
   static final _kStaticData = RustArcStaticData(
-    rustArcIncrementStrongCount:
-        RustLib
-            .instance
-            .api
-            .rust_arc_increment_strong_count_VtopResultFullAttendanceData,
-    rustArcDecrementStrongCount:
-        RustLib
-            .instance
-            .api
-            .rust_arc_decrement_strong_count_VtopResultFullAttendanceData,
-    rustArcDecrementStrongCountPtr:
-        RustLib
-            .instance
-            .api
-            .rust_arc_decrement_strong_count_VtopResultFullAttendanceDataPtr,
+    rustArcIncrementStrongCount: RustLib
+        .instance
+        .api
+        .rust_arc_increment_strong_count_VtopResultFullAttendanceData,
+    rustArcDecrementStrongCount: RustLib
+        .instance
+        .api
+        .rust_arc_decrement_strong_count_VtopResultFullAttendanceData,
+    rustArcDecrementStrongCountPtr: RustLib
+        .instance
+        .api
+        .rust_arc_decrement_strong_count_VtopResultFullAttendanceDataPtr,
   );
 }
 
@@ -6111,21 +6105,18 @@ class VtopResultGradeDetailsDataImpl extends RustOpaque
   ) : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
 
   static final _kStaticData = RustArcStaticData(
-    rustArcIncrementStrongCount:
-        RustLib
-            .instance
-            .api
-            .rust_arc_increment_strong_count_VtopResultGradeDetailsData,
-    rustArcDecrementStrongCount:
-        RustLib
-            .instance
-            .api
-            .rust_arc_decrement_strong_count_VtopResultGradeDetailsData,
-    rustArcDecrementStrongCountPtr:
-        RustLib
-            .instance
-            .api
-            .rust_arc_decrement_strong_count_VtopResultGradeDetailsDataPtr,
+    rustArcIncrementStrongCount: RustLib
+        .instance
+        .api
+        .rust_arc_increment_strong_count_VtopResultGradeDetailsData,
+    rustArcDecrementStrongCount: RustLib
+        .instance
+        .api
+        .rust_arc_decrement_strong_count_VtopResultGradeDetailsData,
+    rustArcDecrementStrongCountPtr: RustLib
+        .instance
+        .api
+        .rust_arc_decrement_strong_count_VtopResultGradeDetailsDataPtr,
   );
 }
 
@@ -6143,21 +6134,18 @@ class VtopResultGradeHistoryDataImpl extends RustOpaque
   ) : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
 
   static final _kStaticData = RustArcStaticData(
-    rustArcIncrementStrongCount:
-        RustLib
-            .instance
-            .api
-            .rust_arc_increment_strong_count_VtopResultGradeHistoryData,
-    rustArcDecrementStrongCount:
-        RustLib
-            .instance
-            .api
-            .rust_arc_decrement_strong_count_VtopResultGradeHistoryData,
-    rustArcDecrementStrongCountPtr:
-        RustLib
-            .instance
-            .api
-            .rust_arc_decrement_strong_count_VtopResultGradeHistoryDataPtr,
+    rustArcIncrementStrongCount: RustLib
+        .instance
+        .api
+        .rust_arc_increment_strong_count_VtopResultGradeHistoryData,
+    rustArcDecrementStrongCount: RustLib
+        .instance
+        .api
+        .rust_arc_decrement_strong_count_VtopResultGradeHistoryData,
+    rustArcDecrementStrongCountPtr: RustLib
+        .instance
+        .api
+        .rust_arc_decrement_strong_count_VtopResultGradeHistoryDataPtr,
   );
 }
 
@@ -6175,21 +6163,18 @@ class VtopResultGradeViewDataImpl extends RustOpaque
   ) : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
 
   static final _kStaticData = RustArcStaticData(
-    rustArcIncrementStrongCount:
-        RustLib
-            .instance
-            .api
-            .rust_arc_increment_strong_count_VtopResultGradeViewData,
-    rustArcDecrementStrongCount:
-        RustLib
-            .instance
-            .api
-            .rust_arc_decrement_strong_count_VtopResultGradeViewData,
-    rustArcDecrementStrongCountPtr:
-        RustLib
-            .instance
-            .api
-            .rust_arc_decrement_strong_count_VtopResultGradeViewDataPtr,
+    rustArcIncrementStrongCount: RustLib
+        .instance
+        .api
+        .rust_arc_increment_strong_count_VtopResultGradeViewData,
+    rustArcDecrementStrongCount: RustLib
+        .instance
+        .api
+        .rust_arc_decrement_strong_count_VtopResultGradeViewData,
+    rustArcDecrementStrongCountPtr: RustLib
+        .instance
+        .api
+        .rust_arc_decrement_strong_count_VtopResultGradeViewDataPtr,
   );
 }
 
@@ -6227,21 +6212,18 @@ class VtopResultMarksDataImpl extends RustOpaque
   ) : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
 
   static final _kStaticData = RustArcStaticData(
-    rustArcIncrementStrongCount:
-        RustLib
-            .instance
-            .api
-            .rust_arc_increment_strong_count_VtopResultMarksData,
-    rustArcDecrementStrongCount:
-        RustLib
-            .instance
-            .api
-            .rust_arc_decrement_strong_count_VtopResultMarksData,
-    rustArcDecrementStrongCountPtr:
-        RustLib
-            .instance
-            .api
-            .rust_arc_decrement_strong_count_VtopResultMarksDataPtr,
+    rustArcIncrementStrongCount: RustLib
+        .instance
+        .api
+        .rust_arc_increment_strong_count_VtopResultMarksData,
+    rustArcDecrementStrongCount: RustLib
+        .instance
+        .api
+        .rust_arc_decrement_strong_count_VtopResultMarksData,
+    rustArcDecrementStrongCountPtr: RustLib
+        .instance
+        .api
+        .rust_arc_decrement_strong_count_VtopResultMarksDataPtr,
   );
 }
 
@@ -6259,21 +6241,18 @@ class VtopResultSemesterDataImpl extends RustOpaque
   ) : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
 
   static final _kStaticData = RustArcStaticData(
-    rustArcIncrementStrongCount:
-        RustLib
-            .instance
-            .api
-            .rust_arc_increment_strong_count_VtopResultSemesterData,
-    rustArcDecrementStrongCount:
-        RustLib
-            .instance
-            .api
-            .rust_arc_decrement_strong_count_VtopResultSemesterData,
-    rustArcDecrementStrongCountPtr:
-        RustLib
-            .instance
-            .api
-            .rust_arc_decrement_strong_count_VtopResultSemesterDataPtr,
+    rustArcIncrementStrongCount: RustLib
+        .instance
+        .api
+        .rust_arc_increment_strong_count_VtopResultSemesterData,
+    rustArcDecrementStrongCount: RustLib
+        .instance
+        .api
+        .rust_arc_decrement_strong_count_VtopResultSemesterData,
+    rustArcDecrementStrongCountPtr: RustLib
+        .instance
+        .api
+        .rust_arc_decrement_strong_count_VtopResultSemesterDataPtr,
   );
 }
 
@@ -6291,21 +6270,18 @@ class VtopResultTimetableDataImpl extends RustOpaque
   ) : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
 
   static final _kStaticData = RustArcStaticData(
-    rustArcIncrementStrongCount:
-        RustLib
-            .instance
-            .api
-            .rust_arc_increment_strong_count_VtopResultTimetableData,
-    rustArcDecrementStrongCount:
-        RustLib
-            .instance
-            .api
-            .rust_arc_decrement_strong_count_VtopResultTimetableData,
-    rustArcDecrementStrongCountPtr:
-        RustLib
-            .instance
-            .api
-            .rust_arc_decrement_strong_count_VtopResultTimetableDataPtr,
+    rustArcIncrementStrongCount: RustLib
+        .instance
+        .api
+        .rust_arc_increment_strong_count_VtopResultTimetableData,
+    rustArcDecrementStrongCount: RustLib
+        .instance
+        .api
+        .rust_arc_decrement_strong_count_VtopResultTimetableData,
+    rustArcDecrementStrongCountPtr: RustLib
+        .instance
+        .api
+        .rust_arc_decrement_strong_count_VtopResultTimetableDataPtr,
   );
 }
 

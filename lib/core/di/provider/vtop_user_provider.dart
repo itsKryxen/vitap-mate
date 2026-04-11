@@ -8,8 +8,9 @@ part 'vtop_user_provider.g.dart';
 class VtopUser extends _$VtopUser {
   @override
   Future<VtopUserEntity> build() async {
-    var user =
-        await ref.read(vtopusersutilsProvider.notifier).vtopUserDefault();
+    var user = await ref
+        .read(vtopusersutilsProvider.notifier)
+        .vtopUserDefault();
     if (user == null) {
       throw StateError('No active VTOP account is available.');
     }

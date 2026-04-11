@@ -40,6 +40,10 @@ class _LogsPageState extends ConsumerState<LogsPage> {
                     query.isEmpty ||
                     entry.source.toLowerCase().contains(query) ||
                     entry.message.toLowerCase().contains(query) ||
+                    (entry.caller?.toLowerCase().contains(query) ?? false) ||
+                    entry.tags.any(
+                      (tag) => tag.toLowerCase().contains(query),
+                    ) ||
                     (entry.error?.toLowerCase().contains(query) ?? false);
                 return levelMatches && sourceMatches && queryMatches;
               })
@@ -121,11 +125,19 @@ class _LogsPageState extends ConsumerState<LogsPage> {
                         ],
                       ),
                       subtitle: Text(
-                        '${entry.source} - ${entry.timestamp.toLocal()}',
+                        [
+                          entry.source,
+                          if (entry.caller != null) entry.caller!,
+                          entry.timestamp.toLocal().toString(),
+                        ].join(' - '),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          if (entry.tags.isNotEmpty) ...[
+                            Text('Tags: ${entry.tags.join(', ')}'),
+                            const SizedBox(height: 8),
+                          ],
                           if (entry.error != null) ...[Text(entry.error!)],
                           if (entry.stackTrace != null) ...[
                             const SizedBox(height: 8),

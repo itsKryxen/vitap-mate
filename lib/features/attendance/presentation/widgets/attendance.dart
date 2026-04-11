@@ -32,49 +32,47 @@ class AttendanceCard extends HookConsumerWidget {
       padding: const EdgeInsets.only(bottom: 12),
       child: AnimatedBuilder(
         animation: scaleAnimation,
-        builder:
-            (context, child) => Transform.scale(
-              scale: scaleAnimation.value,
-              child: GestureDetector(
-                onTapDown: (_) {
-                  isPressed.value = true;
-                  animationController.forward();
-                },
-                onTapUp: (_) {
-                  isPressed.value = false;
-                  animationController.reverse();
-                },
-                onTapCancel: () {
-                  isPressed.value = false;
-                  animationController.reverse();
-                },
-                onTap: () => _showAttendanceDetails(context),
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border(
-                      left: BorderSide(
-                        color:
-                            record.islab()
-                                ? AttendanceColors.labIcon
-                                : AttendanceColors.theoryIcon,
-                        width: 4,
-                      ),
-                    ),
-                  ),
-                  child: FCard(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildHeader(darkMode, context, btwExams),
-                        const SizedBox(height: 16),
-                        _buildStatsRow(darkMode, context, btwExams),
-                      ],
-                    ),
+        builder: (context, child) => Transform.scale(
+          scale: scaleAnimation.value,
+          child: GestureDetector(
+            onTapDown: (_) {
+              isPressed.value = true;
+              animationController.forward();
+            },
+            onTapUp: (_) {
+              isPressed.value = false;
+              animationController.reverse();
+            },
+            onTapCancel: () {
+              isPressed.value = false;
+              animationController.reverse();
+            },
+            onTap: () => _showAttendanceDetails(context),
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                border: Border(
+                  left: BorderSide(
+                    color: record.islab()
+                        ? AttendanceColors.labIcon
+                        : AttendanceColors.theoryIcon,
+                    width: 4,
                   ),
                 ),
               ),
+              child: FCard(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildHeader(darkMode, context, btwExams),
+                    const SizedBox(height: 16),
+                    _buildStatsRow(darkMode, context, btwExams),
+                  ],
+                ),
+              ),
             ),
+          ),
+        ),
       ),
     );
   }
@@ -96,10 +94,9 @@ class AttendanceCard extends HookConsumerWidget {
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
-                    color:
-                        isDark
-                            ? context.theme.colors.primary
-                            : AttendanceColors.secondaryText,
+                    color: isDark
+                        ? context.theme.colors.primary
+                        : AttendanceColors.secondaryText,
                     letterSpacing: 0.5,
                   ),
                 ),
@@ -113,10 +110,9 @@ class AttendanceCard extends HookConsumerWidget {
                   fontWeight: FontWeight.w700,
                   fontSize: 16,
                   height: 1.3,
-                  color:
-                      isDark
-                          ? context.theme.colors.primary
-                          : AttendanceColors.primaryText,
+                  color: isDark
+                      ? context.theme.colors.primary
+                      : AttendanceColors.primaryText,
                 ),
               ),
             ],
@@ -131,8 +127,9 @@ class AttendanceCard extends HookConsumerWidget {
   Widget _buildCourseIcon(bool isDark, BuildContext conntext) {
     final isLab = record.islab();
 
-    final iconColor =
-        isLab ? AttendanceColors.labIcon : AttendanceColors.theoryIcon;
+    final iconColor = isLab
+        ? AttendanceColors.labIcon
+        : AttendanceColors.theoryIcon;
 
     return Container(
       padding: const EdgeInsets.all(10),
@@ -286,17 +283,16 @@ class AttendanceCard extends HookConsumerWidget {
     );
 
     return Row(
-      children:
-          stats
-              .map((stat) => Expanded(child: stat))
-              .expand(
-                (widget) => [
-                  widget,
-                  if (widget != stats.last) const SizedBox(width: 8),
-                ],
-              )
-              .take(stats.length * 2 - 1)
-              .toList(),
+      children: stats
+          .map((stat) => Expanded(child: stat))
+          .expand(
+            (widget) => [
+              widget,
+              if (widget != stats.last) const SizedBox(width: 8),
+            ],
+          )
+          .take(stats.length * 2 - 1)
+          .toList(),
     );
   }
 
@@ -329,10 +325,9 @@ class AttendanceCard extends HookConsumerWidget {
                 fontSize: 15,
                 fontWeight: FontWeight.w700,
                 height: 1.2,
-                color:
-                    isDark
-                        ? context.theme.colors.primary
-                        : AttendanceColors.primaryText,
+                color: isDark
+                    ? context.theme.colors.primary
+                    : AttendanceColors.primaryText,
               ),
               textAlign: TextAlign.center,
               maxLines: 1,
@@ -344,10 +339,9 @@ class AttendanceCard extends HookConsumerWidget {
               style: TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.w500,
-                color:
-                    isDark
-                        ? context.theme.colors.primary
-                        : AttendanceColors.secondaryText,
+                color: isDark
+                    ? context.theme.colors.primary
+                    : AttendanceColors.secondaryText,
                 height: 1.2,
               ),
               textAlign: TextAlign.center,
@@ -392,10 +386,9 @@ class AttendanceCard extends HookConsumerWidget {
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
                     height: 1.2,
-                    color:
-                        isDark
-                            ? context.theme.colors.primary
-                            : AttendanceColors.primaryText,
+                    color: isDark
+                        ? context.theme.colors.primary
+                        : AttendanceColors.primaryText,
                   ),
                   textAlign: TextAlign.center,
                   maxLines: 1,
@@ -407,10 +400,9 @@ class AttendanceCard extends HookConsumerWidget {
                   style: TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.w500,
-                    color:
-                        isDark
-                            ? context.theme.colors.primary
-                            : AttendanceColors.secondaryText,
+                    color: isDark
+                        ? context.theme.colors.primary
+                        : AttendanceColors.secondaryText,
                     height: 1.2,
                   ),
                   textAlign: TextAlign.center,
@@ -430,13 +422,12 @@ class AttendanceCard extends HookConsumerWidget {
       mainAxisMaxRatio: 5 / 6,
       context: context,
       side: FLayout.btt,
-      builder:
-          (context) => AttendanceTable(
-            courseId: record.courseId,
-            courseType: record.courseType,
-            exp: true,
-            facultyName: record.facultyDetail,
-          ),
+      builder: (context) => AttendanceTable(
+        courseId: record.courseId,
+        courseType: record.courseType,
+        exp: true,
+        facultyName: record.facultyDetail,
+      ),
     );
   }
 }

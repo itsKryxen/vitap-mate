@@ -83,16 +83,9 @@ class SettingsPage extends HookConsumerWidget {
                       children: [
                         const Flexible(child: Text('Auto Refresh on Open')),
                         const SizedBox(width: 8),
-                        FTooltip(
-                          tipBuilder:
-                              (context, _) => const Text(
-                                'When enabled, opening VTOP data pages loads cached data first, then refreshes in the background. Keep it off to avoid login attempts until you pull to refresh.',
-                              ),
-                          child: Icon(
-                            FIcons.info,
-                            size: 16,
-                            color: context.theme.colors.mutedForeground,
-                          ),
+                        const _SettingsTooltip(
+                          message:
+                              'Refreshes cached data after opening. Empty pages still fetch.',
                         ),
                       ],
                     ),
@@ -244,6 +237,29 @@ class SettingsPage extends HookConsumerWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _SettingsTooltip extends StatelessWidget {
+  const _SettingsTooltip({required this.message});
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return FTooltip(
+      tipBuilder: (context, _) => ConstrainedBox(
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.sizeOf(context).width - 48,
+        ),
+        child: Text(message),
+      ),
+      child: Icon(
+        FIcons.info,
+        size: 16,
+        color: context.theme.colors.mutedForeground,
       ),
     );
   }

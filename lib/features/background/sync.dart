@@ -157,12 +157,9 @@ Future<bool> _attendanceSync(ProviderContainer container, String? task) async {
             return true;
           }
           return _retryer(
-            () =>
-                container
-                    .read(
-                      fullAttendanceProvider(i.courseType, i.courseId).notifier,
-                    )
-                    .updateAttendance(),
+            () => container
+                .read(fullAttendanceProvider(i.courseType, i.courseId).notifier)
+                .updateAttendance(),
           );
         }(),
     ]);

@@ -46,6 +46,7 @@ class AppLogger {
     String message, {
     Object? error,
     StackTrace? stackTrace,
+    String? caller,
     List<String> tags = const <String>[],
   }) => log(
     LogLevel.trace,
@@ -53,6 +54,7 @@ class AppLogger {
     message,
     error: error,
     stackTrace: stackTrace,
+    caller: caller,
     tags: tags,
   );
 
@@ -61,6 +63,7 @@ class AppLogger {
     String message, {
     Object? error,
     StackTrace? stackTrace,
+    String? caller,
     List<String> tags = const <String>[],
   }) => log(
     LogLevel.debug,
@@ -68,6 +71,7 @@ class AppLogger {
     message,
     error: error,
     stackTrace: stackTrace,
+    caller: caller,
     tags: tags,
   );
 
@@ -76,6 +80,7 @@ class AppLogger {
     String message, {
     Object? error,
     StackTrace? stackTrace,
+    String? caller,
     List<String> tags = const <String>[],
   }) => log(
     LogLevel.info,
@@ -83,6 +88,7 @@ class AppLogger {
     message,
     error: error,
     stackTrace: stackTrace,
+    caller: caller,
     tags: tags,
   );
 
@@ -91,6 +97,7 @@ class AppLogger {
     String message, {
     Object? error,
     StackTrace? stackTrace,
+    String? caller,
     List<String> tags = const <String>[],
   }) => log(
     LogLevel.warn,
@@ -98,6 +105,7 @@ class AppLogger {
     message,
     error: error,
     stackTrace: stackTrace,
+    caller: caller,
     tags: tags,
   );
 
@@ -106,6 +114,7 @@ class AppLogger {
     String message, {
     Object? error,
     StackTrace? stackTrace,
+    String? caller,
     List<String> tags = const <String>[],
   }) => log(
     LogLevel.error,
@@ -113,6 +122,7 @@ class AppLogger {
     message,
     error: error,
     stackTrace: stackTrace,
+    caller: caller,
     tags: tags,
   );
 
@@ -122,8 +132,10 @@ class AppLogger {
     String message, {
     Object? error,
     StackTrace? stackTrace,
+    String? caller,
     List<String> tags = const <String>[],
   }) {
+    final resolvedCaller = caller ?? _inferCaller(StackTrace.current);
     final entry = LogEntry(
       level: level,
       source: source,
@@ -131,11 +143,12 @@ class AppLogger {
       timestamp: DateTime.now(),
       error: error?.toString(),
       stackTrace: stackTrace?.toString(),
+      caller: resolvedCaller,
       tags: tags,
     );
     developer.log(
       message,
-      name: source,
+      name: resolvedCaller == null ? source : '$source:$resolvedCaller',
       level: _developerLevel(level),
       error: error,
       stackTrace: stackTrace,
@@ -170,5 +183,29 @@ class AppLogger {
       LogLevel.warn => 900,
       LogLevel.error => 1000,
     };
+  }
+
+  String? _inferCaller(StackTrace stackTrace) {
+    final frames = stackTrace.toString().split('\n');
+    for (final frame in frames) {
+      final trimmed = frame.trim();
+      if (trimmed.isEmpty || trimmed.contains('app_logger.dart')) {
+        continue;
+      }
+      final match = RegExp(r'^#\d+\s+(.+?)\s+\((.+)\)$').firstMatch(trimmed);
+      if (match == null) {
+        return trimmed;
+      }
+      final member = match.group(1)?.trim();
+      final location = match.group(2)?.trim();
+      if (member == null || member.isEmpty) {
+        return location;
+      }
+      if (location == null || location.isEmpty) {
+        return member;
+      }
+      return '$member ($location)';
+    }
+    return null;
   }
 }

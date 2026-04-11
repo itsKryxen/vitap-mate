@@ -52,9 +52,16 @@ class UserBox extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final autoRefreshOnOpen = ref.watch(autoRefreshOnOpenProvider);
+
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         try {
+          final semesters = await ref.read(semesterIdProvider.future);
+          if (!autoRefreshOnOpen && semesters.semesters.isNotEmpty) {
+            return;
+          }
+
           ref.read(isLoadingSemsProvider.notifier).setLoading(true);
           await ref.read(semesterIdProvider.notifier).updatesemids();
           ref.invalidate(semesterIdProvider);
@@ -65,7 +72,7 @@ class UserBox extends HookConsumerWidget {
         }
       });
       return null;
-    }, []);
+    }, [autoRefreshOnOpen]);
 
     final user = ref.watch(vtopUserProvider);
     return user.when(
@@ -120,8 +127,8 @@ class UserContainer extends HookConsumerWidget {
               canAuthenticateWithBiometrics ||
               await localAuth.isDeviceSupported();
           if (canAuthenticate) {
-            final List<BiometricType> availableBiometrics =
-                await localAuth.getAvailableBiometrics();
+            final List<BiometricType> availableBiometrics = await localAuth
+                .getAvailableBiometrics();
             return availableBiometrics.isNotEmpty;
           }
           return false;
@@ -186,8 +193,8 @@ class UserContainer extends HookConsumerWidget {
                 if (canUseBiometric)
                   FButton.icon(
                     onPress: () async {
-                      final List<BiometricType> availableBiometrics =
-                          await auth.getAvailableBiometrics();
+                      final List<BiometricType> availableBiometrics = await auth
+                          .getAvailableBiometrics();
                       if (availableBiometrics.isNotEmpty &&
                           !showPasswords.value) {
                         final bool didAuthenticate = await auth.authenticate(
@@ -361,11 +368,10 @@ class UserSemChange extends HookConsumerWidget {
                                     description: const Text(
                                       'Select the Semester.',
                                     ),
-                                    validator:
-                                        (values) =>
-                                            values?.isEmpty ?? true
-                                                ? 'Please select a value.'
-                                                : null,
+                                    validator: (values) =>
+                                        values?.isEmpty ?? true
+                                        ? 'Please select a value.'
+                                        : null,
                                     children: [
                                       for (final i in data.semesters)
                                         FSelectTile(
@@ -388,38 +394,36 @@ class UserSemChange extends HookConsumerWidget {
                           ],
                         );
                       },
-                      error:
-                          (e, et) => FDialog(
-                            body: Container(
-                              decoration: BoxDecoration(
-                                color: context.theme.colors.primaryForeground,
-                              ),
-                              child: Text("$e"),
-                            ),
-                            actions: [
-                              FButton(
-                                variant: FButtonVariant.outline,
-                                onPress: () => Navigator.of(context).pop(),
-                                child: const Text('Cancel'),
-                              ),
-                            ],
+                      error: (e, et) => FDialog(
+                        body: Container(
+                          decoration: BoxDecoration(
+                            color: context.theme.colors.primaryForeground,
                           ),
-                      loading:
-                          () => FDialog(
-                            body: Container(
-                              decoration: BoxDecoration(
-                                color: context.theme.colors.primaryForeground,
-                              ),
-                              child: FCircularProgress(),
-                            ),
-                            actions: [
-                              FButton(
-                                variant: FButtonVariant.outline,
-                                onPress: () => Navigator.of(context).pop(),
-                                child: const Text('Cancel'),
-                              ),
-                            ],
+                          child: Text("$e"),
+                        ),
+                        actions: [
+                          FButton(
+                            variant: FButtonVariant.outline,
+                            onPress: () => Navigator.of(context).pop(),
+                            child: const Text('Cancel'),
                           ),
+                        ],
+                      ),
+                      loading: () => FDialog(
+                        body: Container(
+                          decoration: BoxDecoration(
+                            color: context.theme.colors.primaryForeground,
+                          ),
+                          child: FCircularProgress(),
+                        ),
+                        actions: [
+                          FButton(
+                            variant: FButtonVariant.outline,
+                            onPress: () => Navigator.of(context).pop(),
+                            child: const Text('Cancel'),
+                          ),
+                        ],
+                      ),
                     );
                   },
                 );
@@ -495,12 +499,16 @@ class UserPassChangeDialog extends HookConsumerWidget {
 
               isLoading.value = true;
               try {
+                final services = await ref.read(appServicesProvider.future);
+                services.logger.info(
+                  'vtop_client',
+                  'Attempting VTOP login for $newUsername (reason: settings.editVtopDetails)',
+                );
                 var client = getVtopClient(
                   username: newUsername,
                   password: newPassword,
                 );
                 await vtopClientLogin(client: client);
-                final services = await ref.read(appServicesProvider.future);
                 await ref
                     .read(vtopusersutilsProvider.notifier)
                     .vtopUserSave(

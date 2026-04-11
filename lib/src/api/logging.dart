@@ -16,12 +16,14 @@ class BridgeLogEntry {
   final BridgeLogLevel level;
   final String source;
   final String message;
+  final String caller;
   final BigInt timestampMillis;
 
   const BridgeLogEntry({
     required this.level,
     required this.source,
     required this.message,
+    required this.caller,
     required this.timestampMillis,
   });
 
@@ -30,6 +32,7 @@ class BridgeLogEntry {
       level.hashCode ^
       source.hashCode ^
       message.hashCode ^
+      caller.hashCode ^
       timestampMillis.hashCode;
 
   @override
@@ -40,6 +43,7 @@ class BridgeLogEntry {
           level == other.level &&
           source == other.source &&
           message == other.message &&
+          caller == other.caller &&
           timestampMillis == other.timestampMillis;
 }
 

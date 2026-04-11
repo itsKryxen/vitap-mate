@@ -159,16 +159,15 @@ class TimetablePage extends HookConsumerWidget {
                         ),
                       );
                     },
-                    loading:
-                        () => Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(24),
-                            child: _LoadingBar(
-                              label: "Loading timetable...",
-                              color: context.theme.colors.primary,
-                            ),
-                          ),
+                    loading: () => Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(24),
+                        child: _LoadingBar(
+                          label: "Loading timetable...",
+                          color: context.theme.colors.primary,
                         ),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -182,10 +181,9 @@ class TimetablePage extends HookConsumerWidget {
               child: FrostedGlassBox(
                 child: DaysStack(
                   selectedDay: selectedDay,
-                  daysList:
-                      getDayList(timetableData.value).isEmpty
-                          ? const [1, 2, 3, 4, 5]
-                          : getDayList(timetableData.value),
+                  daysList: getDayList(timetableData.value).isEmpty
+                      ? const [1, 2, 3, 4, 5]
+                      : getDayList(timetableData.value),
                 ),
               ),
             ),

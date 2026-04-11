@@ -36,6 +36,7 @@ class VtopGateway {
         },
         entry.source,
         entry.message,
+        caller: entry.caller,
       );
     });
   }
@@ -53,8 +54,15 @@ class VtopGateway {
     );
   }
 
-  Future<void> login(VtopClient client, String username) {
-    _logger.info('vtop_client', 'Attempting VTOP login for $username');
+  Future<void> login(
+    VtopClient client,
+    String username, {
+    required String reason,
+  }) {
+    _logger.info(
+      'vtop_client',
+      'Attempting VTOP login for $username (reason: $reason)',
+    );
     return _queue.run(
       'vtop_login_$username',
       () => bridge.vtopClientLogin(client: client),
@@ -97,26 +105,30 @@ class SessionCoordinator {
     required ActiveAccount account,
     required String password,
     bool force = false,
+    String reason = 'unspecified',
   }) async {
     if (force) {
       clearClient();
       await preferenceStore.writeCookie(null);
     }
-    final client =
-        _client ??= gateway.createClient(
-          registrationNumber: account.identity.registrationNumber,
-          password: password,
-          cookie: preferenceStore.readCookie(),
-        );
+    final client = _client ??= gateway.createClient(
+      registrationNumber: account.identity.registrationNumber,
+      password: password,
+      cookie: preferenceStore.readCookie(),
+    );
     if (!force && await gateway.isAuthenticated(client)) {
       return client;
     }
-    await gateway.login(client, account.identity.registrationNumber);
+    await gateway.login(
+      client,
+      account.identity.registrationNumber,
+      reason: reason,
+    );
     final cookie = await gateway.fetchCookie(client);
     await preferenceStore.writeCookie(cookie);
     logger.info(
       'session',
-      'Authenticated VTOP session for ${account.identity.registrationNumber}',
+      'Authenticated VTOP session for ${account.identity.registrationNumber} (reason: $reason)',
     );
     return client;
   }
@@ -152,14 +164,19 @@ class AuthRepository {
     required String username,
     required String password,
   }) async {
-    final registrationNumber =
-        username.contains('@') ? deriveRegistrationNumber(username) : username;
+    final registrationNumber = username.contains('@')
+        ? deriveRegistrationNumber(username)
+        : username;
     final client = services.gateway.createClient(
       registrationNumber: registrationNumber.trim().toLowerCase(),
       password: password,
       cookie: null,
     );
-    await services.gateway.login(client, registrationNumber);
+    await services.gateway.login(
+      client,
+      registrationNumber,
+      reason: 'auth.verifyUsernameAndPassword',
+    );
     final semesters = await services.gateway.fetchSemesters(client);
     final cookie = await services.gateway.fetchCookie(client) ?? '';
     return PendingSignInResult(
@@ -202,16 +219,19 @@ class AuthRepository {
     if (account == null) {
       throw StateError('No active VTOP account is available.');
     }
-    final password =
-        newPassword != null && newPassword.trim().isNotEmpty
-            ? newPassword.trim()
-            : await requirePassword();
+    final password = newPassword != null && newPassword.trim().isNotEmpty
+        ? newPassword.trim()
+        : await requirePassword();
     final client = services.gateway.createClient(
       registrationNumber: account.identity.registrationNumber,
       password: password,
       cookie: null,
     );
-    await services.gateway.login(client, account.identity.registrationNumber);
+    await services.gateway.login(
+      client,
+      account.identity.registrationNumber,
+      reason: 'auth.updateActiveAccount',
+    );
     final updated = account.copyWith(
       identity: StudentIdentity(
         email: account.identity.email,
@@ -258,12 +278,13 @@ class VtopDataRepository {
     return account;
   }
 
-  Future<VtopClient> _requireClient() async {
+  Future<VtopClient> _requireClient(String reason) async {
     final account = await _requireAccount();
     final password = await services.authRepository.requirePassword();
     return services.sessionCoordinator.ensureAuthenticated(
       account: account,
       password: password,
+      reason: reason,
     );
   }
 
@@ -288,7 +309,9 @@ class VtopDataRepository {
       final cached = await services.cacheStore.read(key);
       if (cached != null) return fromJson(_asMap(cached));
     }
-    final client = await _requireClient();
+    final client = await _requireClient(
+      refresh ? 'refresh $section' : 'cache miss $section',
+    );
     final data = await fetch(client, account);
     await services.cacheStore.write(key, (data as dynamic).toJson());
     return data;
@@ -301,7 +324,9 @@ class VtopDataRepository {
       final cached = await services.cacheStore.read(key);
       if (cached != null) return SemesterData.fromJson(_asMap(cached));
     }
-    final client = await _requireClient();
+    final client = await _requireClient(
+      refresh ? 'refresh semesters' : 'cache miss semesters',
+    );
     final data = await bridge.fetchSemesters(client: client);
     await services.cacheStore.write(key, data.toJson());
     return data;
@@ -317,11 +342,10 @@ class VtopDataRepository {
         updateTime: BigInt.zero,
       ),
       refresh: refresh,
-      fetch:
-          (client, account) => bridge.fetchTimetable(
-            client: client,
-            semesterId: account.identity.selectedSemesterId,
-          ),
+      fetch: (client, account) => bridge.fetchTimetable(
+        client: client,
+        semesterId: account.identity.selectedSemesterId,
+      ),
     );
   }
 
@@ -335,11 +359,10 @@ class VtopDataRepository {
         updateTime: BigInt.zero,
       ),
       refresh: refresh,
-      fetch:
-          (client, account) => bridge.fetchAttendance(
-            client: client,
-            semesterId: account.identity.selectedSemesterId,
-          ),
+      fetch: (client, account) => bridge.fetchAttendance(
+        client: client,
+        semesterId: account.identity.selectedSemesterId,
+      ),
     );
   }
 
@@ -360,13 +383,12 @@ class VtopDataRepository {
         courseType: courseType,
       ),
       refresh: refresh,
-      fetch:
-          (client, account) => bridge.fetchFullAttendance(
-            client: client,
-            semesterId: account.identity.selectedSemesterId,
-            courseId: courseId,
-            courseType: courseType,
-          ),
+      fetch: (client, account) => bridge.fetchFullAttendance(
+        client: client,
+        semesterId: account.identity.selectedSemesterId,
+        courseId: courseId,
+        courseType: courseType,
+      ),
     );
   }
 
@@ -380,11 +402,10 @@ class VtopDataRepository {
         updateTime: BigInt.zero,
       ),
       refresh: refresh,
-      fetch:
-          (client, account) => bridge.fetchMarks(
-            client: client,
-            semesterId: account.identity.selectedSemesterId,
-          ),
+      fetch: (client, account) => bridge.fetchMarks(
+        client: client,
+        semesterId: account.identity.selectedSemesterId,
+      ),
     );
   }
 
@@ -398,11 +419,10 @@ class VtopDataRepository {
         updateTime: BigInt.zero,
       ),
       refresh: refresh,
-      fetch:
-          (client, account) => bridge.fetchExamShedule(
-            client: client,
-            semesterId: account.identity.selectedSemesterId,
-          ),
+      fetch: (client, account) => bridge.fetchExamShedule(
+        client: client,
+        semesterId: account.identity.selectedSemesterId,
+      ),
     );
   }
 
@@ -416,7 +436,9 @@ class VtopDataRepository {
       final cached = await services.cacheStore.read(key);
       if (cached != null) return GradeViewData.fromJson(_asMap(cached));
     }
-    final client = await _requireClient();
+    final client = await _requireClient(
+      refresh ? 'refresh grades $semesterId' : 'cache miss grades $semesterId',
+    );
     final data = await bridge.fetchGradeView(
       client: client,
       semesterId: semesterId,
@@ -437,7 +459,11 @@ class VtopDataRepository {
       final cached = await services.cacheStore.read(key);
       if (cached != null) return GradeDetailsData.fromJson(_asMap(cached));
     }
-    final client = await _requireClient();
+    final client = await _requireClient(
+      refresh
+          ? 'refresh grade details $courseId'
+          : 'cache miss grade details $courseId',
+    );
     final data = await bridge.fetchGradeViewDetails(
       client: client,
       semesterId: semesterId,
@@ -454,7 +480,9 @@ class VtopDataRepository {
       final cached = await services.cacheStore.read(key);
       if (cached != null) return GradeHistoryData.fromJson(_asMap(cached));
     }
-    final client = await _requireClient();
+    final client = await _requireClient(
+      refresh ? 'refresh grade history' : 'cache miss grade history',
+    );
     final data = await bridge.fetchGradeHistory(client: client);
     await services.cacheStore.write(key, data.toJson());
     return data;
@@ -521,11 +549,10 @@ class DedupingAsyncQueue implements AsyncQueue {
     }
 
     if (id.startsWith('vtop')) {
-      final loginTasks =
-          _running.entries
-              .where((entry) => entry.key.startsWith('vtop_login'))
-              .map((entry) => entry.value)
-              .toList();
+      final loginTasks = _running.entries
+          .where((entry) => entry.key.startsWith('vtop_login'))
+          .map((entry) => entry.value)
+          .toList();
       if (loginTasks.isNotEmpty) {
         await Future.wait(loginTasks);
       }

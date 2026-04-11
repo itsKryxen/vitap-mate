@@ -79,15 +79,14 @@ class VtopWebviewActionsMenu extends StatelessWidget {
             FItem(
               prefix: const Icon(FIcons.graduationCap),
               title: const Text('Grades'),
-              onPress:
-                  () => onGoTo('examinations/examGradeView/StudentGradeView'),
+              onPress: () =>
+                  onGoTo('examinations/examGradeView/StudentGradeView'),
             ),
             FItem(
               prefix: const Icon(FIcons.history),
               title: const Text('Grades History'),
-              onPress:
-                  () =>
-                      onGoTo('examinations/examGradeView/StudentGradeHistory'),
+              onPress: () =>
+                  onGoTo('examinations/examGradeView/StudentGradeHistory'),
             ),
           ],
         ),
@@ -125,11 +124,10 @@ class VtopWebviewActionsMenu extends StatelessWidget {
           ],
         ),
       ],
-      builder:
-          (_, controller, _) => FHeaderAction(
-            icon: const Icon(FIcons.ellipsis),
-            onPress: controller.toggle,
-          ),
+      builder: (_, controller, _) => FHeaderAction(
+        icon: const Icon(FIcons.ellipsis),
+        onPress: controller.toggle,
+      ),
     );
   }
 }

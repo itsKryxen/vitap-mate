@@ -140,27 +140,26 @@ Widget? getSidewidget(
   }
 
   return FHeader.nested(
-    title:
-        newsem
-            ? Align(
-              alignment: AlignmentGeometry.topLeft,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
+    title: newsem
+        ? Align(
+            alignment: AlignmentGeometry.topLeft,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
 
-                children: [
-                  Text(data, style: context.theme.typography.lg),
+              children: [
+                Text(data, style: context.theme.typography.lg),
 
-                  const SizedBox(height: 4),
-                  Text(
-                    "New semester available. Change it in Settings -> VTOP Details.",
-                    maxLines: 2,
-                    style: context.theme.typography.sm,
-                  ),
-                ],
-              ),
-            )
-            : Text(data, style: context.theme.typography.lg),
+                const SizedBox(height: 4),
+                Text(
+                  "New semester available. Change it in Settings -> VTOP Details.",
+                  maxLines: 2,
+                  style: context.theme.typography.sm,
+                ),
+              ],
+            ),
+          )
+        : Text(data, style: context.theme.typography.lg),
 
     suffixes: [if (path.contains("timetable")) SyncGoogleCalendarButton()],
   );

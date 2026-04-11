@@ -20,6 +20,7 @@ pub struct BridgeLogEntry {
     pub level: BridgeLogLevel,
     pub source: String,
     pub message: String,
+    pub caller: String,
     pub timestamp_millis: u64,
 }
 
@@ -47,11 +48,13 @@ pub(crate) fn emit_log(
     level: BridgeLogLevel,
     source: impl Into<String>,
     message: impl Into<String>,
+    caller: &'static std::panic::Location<'static>,
 ) {
     let entry = BridgeLogEntry {
         level,
         source: source.into(),
         message: message.into(),
+        caller: format!("{}:{}:{}", caller.file(), caller.line(), caller.column()),
         timestamp_millis: now_millis(),
     };
 
@@ -62,18 +65,42 @@ pub(crate) fn emit_log(
     }
 }
 
+#[track_caller]
 pub(crate) fn log_debug(source: impl Into<String>, message: impl Into<String>) {
-    emit_log(BridgeLogLevel::Debug, source, message);
+    emit_log(
+        BridgeLogLevel::Debug,
+        source,
+        message,
+        std::panic::Location::caller(),
+    );
 }
 
+#[track_caller]
 pub(crate) fn log_info(source: impl Into<String>, message: impl Into<String>) {
-    emit_log(BridgeLogLevel::Info, source, message);
+    emit_log(
+        BridgeLogLevel::Info,
+        source,
+        message,
+        std::panic::Location::caller(),
+    );
 }
 
+#[track_caller]
 pub(crate) fn log_warn(source: impl Into<String>, message: impl Into<String>) {
-    emit_log(BridgeLogLevel::Warn, source, message);
+    emit_log(
+        BridgeLogLevel::Warn,
+        source,
+        message,
+        std::panic::Location::caller(),
+    );
 }
 
+#[track_caller]
 pub(crate) fn log_error(source: impl Into<String>, message: impl Into<String>) {
-    emit_log(BridgeLogLevel::Error, source, message);
+    emit_log(
+        BridgeLogLevel::Error,
+        source,
+        message,
+        std::panic::Location::caller(),
+    );
 }

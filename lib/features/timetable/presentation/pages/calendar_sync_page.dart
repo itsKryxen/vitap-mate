@@ -144,16 +144,15 @@ class CalendarSyncPage extends HookConsumerWidget {
           description: const Text(
             "Calendar permission is permanently denied. Open app settings to enable it.",
           ),
-          suffixBuilder:
-              (context, entry) => IntrinsicHeight(
-                child: FButton(
-                  onPress: () async {
-                    entry.dismiss();
-                    await openAppSettings();
-                  },
-                  child: const Text("Settings"),
-                ),
-              ),
+          suffixBuilder: (context, entry) => IntrinsicHeight(
+            child: FButton(
+              onPress: () async {
+                entry.dismiss();
+                await openAppSettings();
+              },
+              child: const Text("Settings"),
+            ),
+          ),
         );
         permissionGranted.value = false;
         return false;
@@ -198,8 +197,8 @@ class CalendarSyncPage extends HookConsumerWidget {
       writableCalendars.value = calendars;
       selectedCalendarId.value =
           calendars.any((item) => item.id == selectedCalendarId.value)
-              ? selectedCalendarId.value
-              : calendars.firstOrNull?.id;
+          ? selectedCalendarId.value
+          : calendars.firstOrNull?.id;
       writableCalendarAvailable.value = calendars.isNotEmpty;
       calendarsLoading.value = false;
     }
@@ -254,34 +253,30 @@ class CalendarSyncPage extends HookConsumerWidget {
           showAdaptiveDialog(
             context: context,
             barrierDismissible: false,
-            builder:
-                (_) => PopScope(
-                  canPop: false,
-                  child: FDialog(
-                    direction: Axis.horizontal,
-                    title: const Text("Syncing"),
-                    body: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SizedBox(
-                          width: 22,
-                          height: 22,
-                          child: FCircularProgress.pinwheel(),
-                        ),
-                        SizedBox(width: 12),
-                        Text("Syncing classes..."),
-                      ],
+            builder: (_) => PopScope(
+              canPop: false,
+              child: FDialog(
+                direction: Axis.horizontal,
+                title: const Text("Syncing"),
+                body: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(
+                      width: 22,
+                      height: 22,
+                      child: FCircularProgress.pinwheel(),
                     ),
-                    actions: const [
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 2,
-                        ),
-                      ),
-                    ],
-                  ),
+                    SizedBox(width: 12),
+                    Text("Syncing classes..."),
+                  ],
                 ),
+                actions: const [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 2),
+                  ),
+                ],
+              ),
+            ),
           );
         }
 
@@ -325,10 +320,9 @@ class CalendarSyncPage extends HookConsumerWidget {
         showFToast(
           context: context,
           alignment: FToastAlignment.bottomCenter,
-          title:
-              result.created > 0
-                  ? const Text("Calendar Synced")
-                  : const Text("No Classes Synced"),
+          title: result.created > 0
+              ? const Text("Calendar Synced")
+              : const Text("No Classes Synced"),
           description: Text(
             result.created > 0
                 ? "${result.created} recurring classes synced as v${result.version} from ${formatDate(startDate.value)} to ${formatDate(endDate.value)}${result.calendarName != null ? " in ${result.calendarName}" : ""}."
@@ -362,29 +356,26 @@ class CalendarSyncPage extends HookConsumerWidget {
       final confirmed = await showAdaptiveDialog<bool>(
         context: context,
         barrierDismissible: true,
-        builder:
-            (_) => FDialog(
-              title: const Text("Clear Synced Events"),
-              body: Text(
-                "This removes only events synced by this app for semester ${timetable.semesterId} in the selected calendar.",
-              ),
-              actions: [
-                FButton(
-                  variant: FButtonVariant.outline,
-                  onPress:
-                      () =>
-                          Navigator.of(context, rootNavigator: true).pop(false),
-                  child: const Text("Cancel"),
-                ),
-                FButton(
-                  variant: FButtonVariant.destructive,
-                  onPress:
-                      () =>
-                          Navigator.of(context, rootNavigator: true).pop(true),
-                  child: const Text("Clear"),
-                ),
-              ],
+        builder: (_) => FDialog(
+          title: const Text("Clear Synced Events"),
+          body: Text(
+            "This removes only events synced by this app for semester ${timetable.semesterId} in the selected calendar.",
+          ),
+          actions: [
+            FButton(
+              variant: FButtonVariant.outline,
+              onPress: () =>
+                  Navigator.of(context, rootNavigator: true).pop(false),
+              child: const Text("Cancel"),
             ),
+            FButton(
+              variant: FButtonVariant.destructive,
+              onPress: () =>
+                  Navigator.of(context, rootNavigator: true).pop(true),
+              child: const Text("Clear"),
+            ),
+          ],
+        ),
       );
 
       if (confirmed != true) return;
@@ -425,14 +416,12 @@ class CalendarSyncPage extends HookConsumerWidget {
       }
     }
 
-    final calendarFocusDate =
-        selectingDate.value == _DateSelectionTab.start
-            ? startDate.value
-            : endDate.value;
-    final selectedCalendar =
-        writableCalendars.value
-            .where((item) => item.id == selectedCalendarId.value)
-            .firstOrNull;
+    final calendarFocusDate = selectingDate.value == _DateSelectionTab.start
+        ? startDate.value
+        : endDate.value;
+    final selectedCalendar = writableCalendars.value
+        .where((item) => item.id == selectedCalendarId.value)
+        .firstOrNull;
 
     return SingleChildScrollView(
       child: Padding(
@@ -461,29 +450,24 @@ class CalendarSyncPage extends HookConsumerWidget {
               children: [
                 Expanded(
                   child: FButton(
-                    variant:
-                        selectingDate.value == _DateSelectionTab.start
-                            ? FButtonVariant.primary
-                            : FButtonVariant.outline,
-                    onPress:
-                        loading.value
-                            ? null
-                            : () =>
-                                selectingDate.value = _DateSelectionTab.start,
+                    variant: selectingDate.value == _DateSelectionTab.start
+                        ? FButtonVariant.primary
+                        : FButtonVariant.outline,
+                    onPress: loading.value
+                        ? null
+                        : () => selectingDate.value = _DateSelectionTab.start,
                     child: Text("Start: ${formatDate(startDate.value)}"),
                   ),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: FButton(
-                    variant:
-                        selectingDate.value == _DateSelectionTab.end
-                            ? FButtonVariant.primary
-                            : FButtonVariant.outline,
-                    onPress:
-                        loading.value
-                            ? null
-                            : () => selectingDate.value = _DateSelectionTab.end,
+                    variant: selectingDate.value == _DateSelectionTab.end
+                        ? FButtonVariant.primary
+                        : FButtonVariant.outline,
+                    onPress: loading.value
+                        ? null
+                        : () => selectingDate.value = _DateSelectionTab.end,
                     child: Text("End: ${formatDate(endDate.value)}"),
                   ),
                 ),
@@ -563,87 +547,84 @@ class CalendarSyncPage extends HookConsumerWidget {
               subtitle: const Text(
                 "Choose writable calendar for recurring sync.",
               ),
-              child:
-                  calendarsLoading.value
-                      ? const SizedBox(
-                        height: 24,
-                        width: 24,
-                        child: FCircularProgress.pinwheel(),
-                      )
-                      : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            writableCalendarAvailable.value
-                                ? "Writable calendar is ready."
-                                : "No writable calendar available.",
-                          ),
-                          const SizedBox(height: 8),
-                          if (writableCalendars.value.isNotEmpty)
-                            FSelectMenuTile<String>(
-                              title: const Text("Calendar"),
-                              details: Text(
-                                selectedCalendar?.name ??
-                                    writableCalendars.value.first.name,
-                              ),
-                              selectControl: FMultiValueControl.managedRadio(
-                                initial: selectedCalendarId.value,
-                                onChange:
-                                    loading.value
-                                        ? null
-                                        : (value) {
-                                          final selected = value.firstOrNull;
-                                          if (selected != null) {
-                                            selectedCalendarId.value = selected;
-                                          }
-                                        },
-                              ),
-                              menu: [
-                                for (final calendar in writableCalendars.value)
-                                  FSelectTile<String>(
-                                    title: Text(
-                                      calendar.accountName.isEmpty
-                                          ? calendar.name
-                                          : "${calendar.name} (${calendar.accountName})",
-                                    ),
-                                    value: calendar.id,
+              child: calendarsLoading.value
+                  ? const SizedBox(
+                      height: 24,
+                      width: 24,
+                      child: FCircularProgress.pinwheel(),
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          writableCalendarAvailable.value
+                              ? "Writable calendar is ready."
+                              : "No writable calendar available.",
+                        ),
+                        const SizedBox(height: 8),
+                        if (writableCalendars.value.isNotEmpty)
+                          FSelectMenuTile<String>(
+                            title: const Text("Calendar"),
+                            details: Text(
+                              selectedCalendar?.name ??
+                                  writableCalendars.value.first.name,
+                            ),
+                            selectControl: FMultiValueControl.managedRadio(
+                              initial: selectedCalendarId.value,
+                              onChange: loading.value
+                                  ? null
+                                  : (value) {
+                                      final selected = value.firstOrNull;
+                                      if (selected != null) {
+                                        selectedCalendarId.value = selected;
+                                      }
+                                    },
+                            ),
+                            menu: [
+                              for (final calendar in writableCalendars.value)
+                                FSelectTile<String>(
+                                  title: Text(
+                                    calendar.accountName.isEmpty
+                                        ? calendar.name
+                                        : "${calendar.name} (${calendar.accountName})",
                                   ),
-                              ],
-                            )
-                          else
-                            const Text("No writable calendars found."),
-                          const SizedBox(height: 8),
-                          Wrap(
-                            spacing: 8,
-                            runSpacing: 8,
-                            children: [
-                              if (!permissionGranted.value)
-                                FButton(
-                                  variant: FButtonVariant.outline,
-                                  onPress:
-                                      (loading.value || calendarsLoading.value)
-                                          ? null
-                                          : () async {
-                                            final ok =
-                                                await ensureCalendarPermission();
-                                            if (ok) {
-                                              await loadCalendars();
-                                            }
-                                          },
-                                  child: const Text("Grant Permission"),
+                                  value: calendar.id,
                                 ),
+                            ],
+                          )
+                        else
+                          const Text("No writable calendars found."),
+                        const SizedBox(height: 8),
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          children: [
+                            if (!permissionGranted.value)
                               FButton(
                                 variant: FButtonVariant.outline,
                                 onPress:
                                     (loading.value || calendarsLoading.value)
-                                        ? null
-                                        : loadCalendars,
-                                child: const Text("Reload Calendars"),
+                                    ? null
+                                    : () async {
+                                        final ok =
+                                            await ensureCalendarPermission();
+                                        if (ok) {
+                                          await loadCalendars();
+                                        }
+                                      },
+                                child: const Text("Grant Permission"),
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
+                            FButton(
+                              variant: FButtonVariant.outline,
+                              onPress: (loading.value || calendarsLoading.value)
+                                  ? null
+                                  : loadCalendars,
+                              child: const Text("Reload Calendars"),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
             ),
             FCard(
               title: Text(
@@ -665,15 +646,14 @@ class CalendarSyncPage extends HookConsumerWidget {
                     ),
                     selectControl: FMultiValueControl.managedRadio(
                       initial: reminderMinutes.value,
-                      onChange:
-                          loading.value
-                              ? null
-                              : (value) {
-                                final selected = value.firstOrNull;
-                                if (selected != null) {
-                                  reminderMinutes.value = selected;
-                                }
-                              },
+                      onChange: loading.value
+                          ? null
+                          : (value) {
+                              final selected = value.firstOrNull;
+                              if (selected != null) {
+                                reminderMinutes.value = selected;
+                              }
+                            },
                     ),
                     menu: const [
                       FSelectTile<int>(title: Text("Off"), value: 0),
@@ -720,14 +700,13 @@ class CalendarSyncPage extends HookConsumerWidget {
             const SizedBox(height: 16),
             FButton(
               onPress: (loading.value || !canSync) ? null : sync,
-              child:
-                  loading.value
-                      ? const SizedBox(
-                        width: 22,
-                        height: 22,
-                        child: FCircularProgress.pinwheel(),
-                      )
-                      : const Text("Sync Timetable"),
+              child: loading.value
+                  ? const SizedBox(
+                      width: 22,
+                      height: 22,
+                      child: FCircularProgress.pinwheel(),
+                    )
+                  : const Text("Sync Timetable"),
             ),
             const SizedBox(height: 8),
             FAccordion(

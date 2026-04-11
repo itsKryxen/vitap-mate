@@ -83,10 +83,9 @@ class Step1 extends HookConsumerWidget {
     Future<void> handleGooglePress() async {
       isloading.value = true;
       try {
-        final collegeEmail =
-            await (await ref.read(
-              appServicesProvider.future,
-            )).authRepository.signInWithGoogleEmail();
+        final collegeEmail = await (await ref.read(
+          appServicesProvider.future,
+        )).authRepository.signInWithGoogleEmail();
         if (username.text.trim().isEmpty) {
           username.text = deriveRegistrationNumber(collegeEmail);
         }
@@ -108,13 +107,13 @@ class Step1 extends HookConsumerWidget {
         if (_globalEmail == null || username.text.trim().isEmpty) {
           throw const FormatException('Continue with your VITAP email first.');
         }
-        final pending = await (await ref.read(
-          appServicesProvider.future,
-        )).authRepository.verifyUsernameAndPassword(
-          email: _globalEmail,
-          username: username.text.trim(),
-          password: password.text,
-        );
+        final pending = await (await ref.read(appServicesProvider.future))
+            .authRepository
+            .verifyUsernameAndPassword(
+              email: _globalEmail,
+              username: username.text.trim(),
+              password: password.text,
+            );
         VtopClient client = getVtopClient(
           username: pending.registrationNumber,
           password: pending.password,
@@ -165,11 +164,9 @@ class Step1 extends HookConsumerWidget {
               hint: 'vitapstudent.ac.in email',
               enabled: false,
               autovalidateMode: AutovalidateMode.onUserInteraction,
-              validator:
-                  (value) =>
-                      1 <= (value?.trim().length ?? 0)
-                          ? null
-                          : 'Continue with your VITAP email first.',
+              validator: (value) => 1 <= (value?.trim().length ?? 0)
+                  ? null
+                  : 'Continue with your VITAP email first.',
             ),
             const SizedBox(height: 10),
             FTextFormField(
@@ -177,42 +174,38 @@ class Step1 extends HookConsumerWidget {
               control: FTextFieldControl.managed(controller: username),
               hint: 'registration number',
               autovalidateMode: AutovalidateMode.onUserInteraction,
-              validator:
-                  (value) =>
-                      1 <= (value?.length ?? 0)
-                          ? null
-                          : 'Enter your VTOP username.',
+              validator: (value) => 1 <= (value?.length ?? 0)
+                  ? null
+                  : 'Enter your VTOP username.',
             ),
             const SizedBox(height: 10),
             FTextFormField.password(
               control: FTextFieldControl.managed(controller: password),
               hint: 'vtop password',
               autovalidateMode: AutovalidateMode.onUserInteraction,
-              validator:
-                  (value) =>
-                      1 <= (value?.length ?? 0)
-                          ? null
-                          : 'Please enter your vtop password.',
+              validator: (value) => 1 <= (value?.length ?? 0)
+                  ? null
+                  : 'Please enter your vtop password.',
             ),
             const SizedBox(height: 20),
             !isloading.value
                 ? FButton(
-                  child: const Text('Next'),
-                  onPress: () {
-                    if (formKey.currentState!.validate()) {
-                      handlePress();
-                      return;
-                    }
-                  },
-                )
+                    child: const Text('Next'),
+                    onPress: () {
+                      if (formKey.currentState!.validate()) {
+                        handlePress();
+                        return;
+                      }
+                    },
+                  )
                 : SizedBox(
-                  height: 20,
-                  width: 20,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    color: context.theme.colors.primary,
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: context.theme.colors.primary,
+                    ),
                   ),
-                ),
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -274,9 +267,8 @@ class Step2 extends HookConsumerWidget {
               control: FMultiValueControl.managedRadio(controller: controller),
               label: const Text('Semesters'),
               description: const Text('Select the Semester.'),
-              validator:
-                  (values) =>
-                      values?.isEmpty ?? true ? 'Please select a value.' : null,
+              validator: (values) =>
+                  values?.isEmpty ?? true ? 'Please select a value.' : null,
               maxHeight: MediaQuery.of(context).size.height * 075,
               children: [
                 for (final i in data.value!.semesters)

@@ -23,6 +23,7 @@ class VClient extends _$VClient {
     return services.sessionCoordinator.ensureAuthenticated(
       account: account,
       password: password,
+      reason: 'vClientProvider.build',
     );
   }
 
@@ -30,7 +31,10 @@ class VClient extends _$VClient {
     state = AsyncData(vclinet);
   }
 
-  Future<void> tryLogin({bool force = false}) async {
+  Future<void> tryLogin({
+    bool force = false,
+    String reason = 'vClientProvider.tryLogin',
+  }) async {
     final services = await ref.read(appServicesProvider.future);
     final account = await services.authRepository.loadActiveAccount();
     if (account == null) {
@@ -50,6 +54,7 @@ class VClient extends _$VClient {
         account: account,
         password: password,
         force: force,
+        reason: reason,
       );
       state = AsyncData(client);
     } catch (e) {

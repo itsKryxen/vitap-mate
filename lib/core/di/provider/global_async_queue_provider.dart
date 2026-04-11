@@ -24,11 +24,10 @@ class GlobalAsyncQueue extends _$GlobalAsyncQueue implements AsyncQueue {
       return current[id] as Future<T>;
     }
     if (id.startsWith("vtop")) {
-      final mainFutures =
-          state.running.entries
-              .where((entry) => entry.key.startsWith('vtop_login'))
-              .map((entry) => entry.value)
-              .toList();
+      final mainFutures = state.running.entries
+          .where((entry) => entry.key.startsWith('vtop_login'))
+          .map((entry) => entry.value)
+          .toList();
       if (mainFutures.isNotEmpty) {
         await Future.wait(mainFutures);
       }

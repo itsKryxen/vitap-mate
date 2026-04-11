@@ -37,32 +37,30 @@ class VtopWebviewLoading extends StatelessWidget {
                     color: colors.primary.withValues(alpha: 0.08),
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
-                      color:
-                          hasError
-                              ? colors.destructive.withValues(alpha: 0.28)
-                              : colors.primary.withValues(alpha: 0.24),
+                      color: hasError
+                          ? colors.destructive.withValues(alpha: 0.28)
+                          : colors.primary.withValues(alpha: 0.24),
                     ),
                   ),
                   child: SizedBox.square(
                     dimension: 72,
                     child: Center(
-                      child:
-                          hasError
-                              ? Icon(
-                                FIcons.circleAlert,
-                                color: colors.destructive,
-                                size: 30,
-                              )
-                              : SizedBox.square(
-                                dimension: 30,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 3,
-                                  color: colors.primary,
-                                  backgroundColor: colors.border.withValues(
-                                    alpha: 0.35,
-                                  ),
+                      child: hasError
+                          ? Icon(
+                              FIcons.circleAlert,
+                              color: colors.destructive,
+                              size: 30,
+                            )
+                          : SizedBox.square(
+                              dimension: 30,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 3,
+                                color: colors.primary,
+                                backgroundColor: colors.border.withValues(
+                                  alpha: 0.35,
                                 ),
                               ),
+                            ),
                     ),
                   ),
                 ),

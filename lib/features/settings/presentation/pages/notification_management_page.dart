@@ -48,51 +48,50 @@ class NotificationManagementPage extends HookConsumerWidget {
                 onPress: () async {
                   await showFDialog(
                     context: context,
-                    builder:
-                        (context, style, animation) => FDialog(
-                          animation: animation,
-                          direction: Axis.horizontal,
-                          title: const Text("Debug Notification Delay"),
-                          body: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text("Delay in seconds (0 = immediate)."),
-                              const SizedBox(height: 8),
-                              FTextField(
-                                control: FTextFieldControl.managed(
-                                  controller: debugDelayController,
-                                ),
-                              ),
-                            ],
+                    builder: (context, style, animation) => FDialog(
+                      animation: animation,
+                      direction: Axis.horizontal,
+                      title: const Text("Debug Notification Delay"),
+                      body: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text("Delay in seconds (0 = immediate)."),
+                          const SizedBox(height: 8),
+                          FTextField(
+                            control: FTextFieldControl.managed(
+                              controller: debugDelayController,
+                            ),
                           ),
-                          actions: [
-                            FButton(
-                              variant: FButtonVariant.outline,
-                              onPress: () => Navigator.of(context).pop(),
-                              child: const Text("Cancel"),
-                            ),
-                            FButton(
-                              onPress: () async {
-                                final granted =
-                                    await ClassReminderNotificationService.requestAndroidNotificationPermission();
-                                if (!granted) return;
-                                final delay =
-                                    int.tryParse(
-                                      debugDelayController.text.trim(),
-                                    ) ??
-                                    0;
-                                if (context.mounted) {
-                                  Navigator.of(context).pop();
-                                }
-                                await ClassReminderNotificationService.showDebugTestNotification(
-                                  delaySeconds: delay < 0 ? 0 : delay,
-                                );
-                              },
-                              child: const Text("Send"),
-                            ),
-                          ],
+                        ],
+                      ),
+                      actions: [
+                        FButton(
+                          variant: FButtonVariant.outline,
+                          onPress: () => Navigator.of(context).pop(),
+                          child: const Text("Cancel"),
                         ),
+                        FButton(
+                          onPress: () async {
+                            final granted =
+                                await ClassReminderNotificationService.requestAndroidNotificationPermission();
+                            if (!granted) return;
+                            final delay =
+                                int.tryParse(
+                                  debugDelayController.text.trim(),
+                                ) ??
+                                0;
+                            if (context.mounted) {
+                              Navigator.of(context).pop();
+                            }
+                            await ClassReminderNotificationService.showDebugTestNotification(
+                              delaySeconds: delay < 0 ? 0 : delay,
+                            );
+                          },
+                          child: const Text("Send"),
+                        ),
+                      ],
+                    ),
                   );
                 },
               ),
@@ -168,61 +167,56 @@ class NotificationManagementPage extends HookConsumerWidget {
               onPress: () {
                 showFDialog(
                   context: context,
-                  builder:
-                      (context, style, animation) => FDialog(
-                        animation: animation,
-                        direction: Axis.horizontal,
-                        title: const Text("Pause class reminders"),
-                        body: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Enter number of days to pause class notifications.",
-                            ),
-                            const SizedBox(height: 8),
-                            FTextField(
-                              control: FTextFieldControl.managed(
-                                controller: pauseDaysController,
-                              ),
-                            ),
-                          ],
+                  builder: (context, style, animation) => FDialog(
+                    animation: animation,
+                    direction: Axis.horizontal,
+                    title: const Text("Pause class reminders"),
+                    body: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Enter number of days to pause class notifications.",
                         ),
-                        actions: [
-                          FButton(
-                            variant: FButtonVariant.outline,
-                            child: const Text("Clear Pause"),
-                            onPress: () async {
-                              await ref
-                                  .read(classReminderSettingsControllerProvider)
-                                  .clearPause();
-                              if (context.mounted) Navigator.of(context).pop();
-                              if (ref
-                                  .read(classReminderSettingsProvider)
-                                  .enabled) {
-                                await ref
-                                    .read(timetableProvider.notifier)
-                                    .updateTimetable();
-                              }
-                            },
+                        const SizedBox(height: 8),
+                        FTextField(
+                          control: FTextFieldControl.managed(
+                            controller: pauseDaysController,
                           ),
-                          FButton(
-                            child: const Text("Pause"),
-                            onPress: () async {
-                              final days =
-                                  int.tryParse(
-                                    pauseDaysController.text.trim(),
-                                  ) ??
-                                  0;
-                              if (days <= 0) return;
-                              await ref
-                                  .read(classReminderSettingsControllerProvider)
-                                  .pauseForDays(days);
-                              if (context.mounted) Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
+                        ),
+                      ],
+                    ),
+                    actions: [
+                      FButton(
+                        variant: FButtonVariant.outline,
+                        child: const Text("Clear Pause"),
+                        onPress: () async {
+                          await ref
+                              .read(classReminderSettingsControllerProvider)
+                              .clearPause();
+                          if (context.mounted) Navigator.of(context).pop();
+                          if (ref.read(classReminderSettingsProvider).enabled) {
+                            await ref
+                                .read(timetableProvider.notifier)
+                                .updateTimetable();
+                          }
+                        },
                       ),
+                      FButton(
+                        child: const Text("Pause"),
+                        onPress: () async {
+                          final days =
+                              int.tryParse(pauseDaysController.text.trim()) ??
+                              0;
+                          if (days <= 0) return;
+                          await ref
+                              .read(classReminderSettingsControllerProvider)
+                              .pauseForDays(days);
+                          if (context.mounted) Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  ),
                 );
               },
             ),

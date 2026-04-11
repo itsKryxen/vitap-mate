@@ -126,16 +126,15 @@ class AttendancePage extends HookConsumerWidget {
               // } catch (_) {}
               return Center(child: Text(msg));
             },
-            loading:
-                () => Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(24),
-                    child: _LoadingBar(
-                      label: "Loading attendance...",
-                      color: context.theme.colors.primary,
-                    ),
-                  ),
+            loading: () => Center(
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: _LoadingBar(
+                  label: "Loading attendance...",
+                  color: context.theme.colors.primary,
                 ),
+              ),
+            ),
           ),
         ),
       ),

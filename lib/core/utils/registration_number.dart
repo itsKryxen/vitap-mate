@@ -1,10 +1,9 @@
 String deriveRegistrationNumber(String email) {
   final trimmedEmail = email.trim().toLowerCase();
   final localPart = trimmedEmail.split('@').first;
-  final localSegments =
-      RegExp(
-        r'[a-z0-9]+',
-      ).allMatches(localPart).map((match) => match.group(0)!).toList();
+  final localSegments = RegExp(
+    r'[a-z0-9]+',
+  ).allMatches(localPart).map((match) => match.group(0)!).toList();
   final registrationSegment = localSegments.lastWhere(
     (segment) => RegExp(r'^\d{2}[a-z]{2,6}\d{4}$').hasMatch(segment),
     orElse: () => localSegments.isNotEmpty ? localSegments.last : '',

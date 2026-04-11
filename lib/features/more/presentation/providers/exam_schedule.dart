@@ -12,8 +12,8 @@ class ExamSchedule extends _$ExamSchedule {
   @override
   Future<ExamScheduleData> build() async {
     final services = await ref.watch(appServicesProvider.future);
-    ExamScheduleData data =
-        await services.vtopDataRepository.loadExamSchedule();
+    ExamScheduleData data = await services.vtopDataRepository
+        .loadExamSchedule();
     if (data.semesterId.isEmpty && ref.watch(autoRefreshOnOpenProvider)) {
       data = await _update();
     }

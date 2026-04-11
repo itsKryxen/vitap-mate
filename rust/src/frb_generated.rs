@@ -3234,11 +3234,13 @@ impl SseDecode for crate::api::logging::BridgeLogEntry {
         let mut var_level = <crate::api::logging::BridgeLogLevel>::sse_decode(deserializer);
         let mut var_source = <String>::sse_decode(deserializer);
         let mut var_message = <String>::sse_decode(deserializer);
+        let mut var_caller = <String>::sse_decode(deserializer);
         let mut var_timestampMillis = <u64>::sse_decode(deserializer);
         return crate::api::logging::BridgeLogEntry {
             level: var_level,
             source: var_source,
             message: var_message,
+            caller: var_caller,
             timestamp_millis: var_timestampMillis,
         };
     }
@@ -4665,6 +4667,7 @@ impl flutter_rust_bridge::IntoDart for crate::api::logging::BridgeLogEntry {
             self.level.into_into_dart().into_dart(),
             self.source.into_into_dart().into_dart(),
             self.message.into_into_dart().into_dart(),
+            self.caller.into_into_dart().into_dart(),
             self.timestamp_millis.into_into_dart().into_dart(),
         ]
         .into_dart()
@@ -5729,6 +5732,7 @@ impl SseEncode for crate::api::logging::BridgeLogEntry {
         <crate::api::logging::BridgeLogLevel>::sse_encode(self.level, serializer);
         <String>::sse_encode(self.source, serializer);
         <String>::sse_encode(self.message, serializer);
+        <String>::sse_encode(self.caller, serializer);
         <u64>::sse_encode(self.timestamp_millis, serializer);
     }
 }

@@ -38,8 +38,9 @@ Future<VtopWebviewCookie?> loadVtopWebviewCookie({
   required WebUri baseUrl,
 }) async {
   final cookieManager = CookieManager.instance();
-  final expiresDate =
-      DateTime.now().add(const Duration(minutes: 30)).millisecondsSinceEpoch;
+  final expiresDate = DateTime.now()
+      .add(const Duration(minutes: 30))
+      .millisecondsSinceEpoch;
 
   final client = await ref.read(vClientProvider.future);
   final rawCookie = await fetchCookies(client: client);

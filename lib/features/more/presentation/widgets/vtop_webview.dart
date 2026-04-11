@@ -41,7 +41,12 @@ class VtopWebview extends HookConsumerWidget {
       setupError.value = null;
 
       try {
-        await ref.read(vClientProvider.notifier).tryLogin(force: force);
+        await ref
+            .read(vClientProvider.notifier)
+            .tryLogin(
+              force: force,
+              reason: force ? 'vtop webview force login' : 'vtop webview open',
+            );
         final client = await ref.read(vClientProvider.future);
         if (!await fetchIsAuth(client: client)) {
           throw Exception('Unable to authenticate with VTOP.');
@@ -97,26 +102,25 @@ class VtopWebview extends HookConsumerWidget {
       try {
         final shouldLoginAgain = await showFDialog<bool>(
           context: context,
-          builder:
-              (context, style, animation) => FDialog(
-                animation: animation,
-                direction: Axis.horizontal,
-                title: const Text('Login expired'),
-                body: const Text(
-                  'VTOP sent you back to the login page. Try logging in again?',
-                ),
-                actions: [
-                  FButton(
-                    variant: FButtonVariant.outline,
-                    onPress: () => Navigator.of(context).pop(false),
-                    child: const Text('Cancel'),
-                  ),
-                  FButton(
-                    onPress: () => Navigator.of(context).pop(true),
-                    child: const Text('Try again'),
-                  ),
-                ],
+          builder: (context, style, animation) => FDialog(
+            animation: animation,
+            direction: Axis.horizontal,
+            title: const Text('Login expired'),
+            body: const Text(
+              'VTOP sent you back to the login page. Try logging in again?',
+            ),
+            actions: [
+              FButton(
+                variant: FButtonVariant.outline,
+                onPress: () => Navigator.of(context).pop(false),
+                child: const Text('Cancel'),
               ),
+              FButton(
+                onPress: () => Navigator.of(context).pop(true),
+                child: const Text('Try again'),
+              ),
+            ],
+          ),
         );
 
         if (shouldLoginAgain == true && context.mounted) {
@@ -181,10 +185,10 @@ class VtopWebview extends HookConsumerWidget {
               pendingInitialMenuUrl.value = null;
               goTo(url);
             },
-            onToggleCompactMode:
-                () => isCompactMode.value = !isCompactMode.value,
-            onToggleDesktopMode:
-                () => isDesktopMode.value = !isDesktopMode.value,
+            onToggleCompactMode: () =>
+                isCompactMode.value = !isCompactMode.value,
+            onToggleDesktopMode: () =>
+                isDesktopMode.value = !isDesktopMode.value,
             onForceLogin: forceLogin,
           ),
         ],

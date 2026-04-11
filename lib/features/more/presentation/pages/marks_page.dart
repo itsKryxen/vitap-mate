@@ -45,10 +45,9 @@ class MarksPage extends HookConsumerWidget {
     return RefreshIndicator(
       onRefresh: update,
       backgroundColor: MarksColors.tableBackground,
-      color:
-          darkMode
-              ? context.theme.colors.primaryForeground
-              : MarksColors.primaryText,
+      color: darkMode
+          ? context.theme.colors.primaryForeground
+          : MarksColors.primaryText,
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Container(

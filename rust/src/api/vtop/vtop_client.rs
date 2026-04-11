@@ -77,7 +77,10 @@ impl VtopClient {
     #[cfg(not(target_arch = "wasm32"))]
     pub async fn get_cookie(&self, check: bool) -> VtopResult<Vec<u8>> {
         if !self.session.is_authenticated() && check {
-            log_warn("vtop_client", "Cookie requested while session is unauthenticated");
+            log_warn(
+                "vtop_client",
+                "Cookie requested while session is unauthenticated",
+            );
             return Err(VtopError::SessionExpired);
         }
 
@@ -105,7 +108,10 @@ impl VtopClient {
     }
     pub async fn get_semesters(&mut self, check: bool) -> VtopResult<SemesterData> {
         if !self.session.is_authenticated() && check {
-            log_warn("vtop_client", "Semesters requested without authenticated session");
+            log_warn(
+                "vtop_client",
+                "Semesters requested without authenticated session",
+            );
             return Err(VtopError::SessionExpired);
         }
         log_debug("vtop_client", "Loading semesters page");
@@ -132,7 +138,11 @@ impl VtopClient {
             self.session.set_authenticated(false);
             log_warn(
                 "vtop_client",
-                format!("Semesters request failed or redirected: status={} url={}", res.status(), res.url()),
+                format!(
+                    "Semesters request failed or redirected: status={} url={}",
+                    res.status(),
+                    res.url()
+                ),
             );
             return Err(VtopError::SessionExpired);
         }
@@ -148,10 +158,16 @@ impl VtopClient {
 
     pub async fn get_timetable(&mut self, semester_id: &str) -> VtopResult<TimetableData> {
         if !self.session.is_authenticated() {
-            log_warn("vtop_client", "Timetable requested without authenticated session");
+            log_warn(
+                "vtop_client",
+                "Timetable requested without authenticated session",
+            );
             return Err(VtopError::SessionExpired);
         }
-        log_debug("vtop_client", format!("Loading timetable for {semester_id}"));
+        log_debug(
+            "vtop_client",
+            format!("Loading timetable for {semester_id}"),
+        );
         let url = format!("{}/vtop/processViewTimeTable", self.config.base_url);
         let body = format!(
             "_csrf={}&semesterSubId={}&authorizedID={}",
@@ -172,7 +188,11 @@ impl VtopClient {
             self.session.set_authenticated(false);
             log_warn(
                 "vtop_client",
-                format!("Timetable request failed or redirected: status={} url={}", res.status(), res.url()),
+                format!(
+                    "Timetable request failed or redirected: status={} url={}",
+                    res.status(),
+                    res.url()
+                ),
             );
             return Err(VtopError::SessionExpired);
         }
@@ -180,17 +200,26 @@ impl VtopClient {
         let parsed = parsett::parse_timetable(text, semester_id);
         log_info(
             "vtop_client",
-            format!("Loaded {} timetable slots for {semester_id}", parsed.slots.len()),
+            format!(
+                "Loaded {} timetable slots for {semester_id}",
+                parsed.slots.len()
+            ),
         );
         Ok(parsed)
     }
 
     pub async fn get_attendance(&mut self, semester_id: &str) -> VtopResult<AttendanceData> {
         if !self.session.is_authenticated() {
-            log_warn("vtop_client", "Attendance requested without authenticated session");
+            log_warn(
+                "vtop_client",
+                "Attendance requested without authenticated session",
+            );
             return Err(VtopError::SessionExpired);
         }
-        log_debug("vtop_client", format!("Loading attendance for {semester_id}"));
+        log_debug(
+            "vtop_client",
+            format!("Loading attendance for {semester_id}"),
+        );
         let url = format!("{}/vtop/processViewStudentAttendance", self.config.base_url);
         let body = format!(
             "_csrf={}&semesterSubId={}&authorizedID={}",
@@ -211,7 +240,11 @@ impl VtopClient {
             self.session.set_authenticated(false);
             log_warn(
                 "vtop_client",
-                format!("Attendance request failed or redirected: status={} url={}", res.status(), res.url()),
+                format!(
+                    "Attendance request failed or redirected: status={} url={}",
+                    res.status(),
+                    res.url()
+                ),
             );
             return Err(VtopError::SessionExpired);
         };
@@ -219,7 +252,10 @@ impl VtopClient {
         let parsed = parseattn::parse_attendance(text, semester_id.to_string());
         log_info(
             "vtop_client",
-            format!("Loaded {} attendance records for {semester_id}", parsed.records.len()),
+            format!(
+                "Loaded {} attendance records for {semester_id}",
+                parsed.records.len()
+            ),
         );
         Ok(parsed)
     }
@@ -231,7 +267,10 @@ impl VtopClient {
         course_type: &str,
     ) -> VtopResult<FullAttendanceData> {
         if !self.session.is_authenticated() {
-            log_warn("vtop_client", "Full attendance requested without authenticated session");
+            log_warn(
+                "vtop_client",
+                "Full attendance requested without authenticated session",
+            );
             return Err(VtopError::SessionExpired);
         }
         log_debug(
@@ -261,7 +300,11 @@ impl VtopClient {
             self.session.set_authenticated(false);
             log_warn(
                 "vtop_client",
-                format!("Full attendance request failed or redirected: status={} url={}", res.status(), res.url()),
+                format!(
+                    "Full attendance request failed or redirected: status={} url={}",
+                    res.status(),
+                    res.url()
+                ),
             );
             return Err(VtopError::SessionExpired);
         }
@@ -284,7 +327,10 @@ impl VtopClient {
 
     pub async fn get_marks(&mut self, semester_id: &str) -> VtopResult<MarksData> {
         if !self.session.is_authenticated() {
-            log_warn("vtop_client", "Marks requested without authenticated session");
+            log_warn(
+                "vtop_client",
+                "Marks requested without authenticated session",
+            );
             return Err(VtopError::SessionExpired);
         }
         log_debug("vtop_client", format!("Loading marks for {semester_id}"));
@@ -313,7 +359,11 @@ impl VtopClient {
             self.session.set_authenticated(false);
             log_warn(
                 "vtop_client",
-                format!("Marks request failed or redirected: status={} url={}", res.status(), res.url()),
+                format!(
+                    "Marks request failed or redirected: status={} url={}",
+                    res.status(),
+                    res.url()
+                ),
             );
             return Err(VtopError::SessionExpired);
         }
@@ -323,17 +373,26 @@ impl VtopClient {
         let parsed = parsemarks::parse_marks(text, semester_id.to_string());
         log_info(
             "vtop_client",
-            format!("Loaded marks for {} courses in {semester_id}", parsed.records.len()),
+            format!(
+                "Loaded marks for {} courses in {semester_id}",
+                parsed.records.len()
+            ),
         );
         Ok(parsed)
     }
 
     pub async fn get_grade_view(&mut self, semester_id: &str) -> VtopResult<GradeViewData> {
         if !self.session.is_authenticated() {
-            log_warn("vtop_client", "Grade view requested without authenticated session");
+            log_warn(
+                "vtop_client",
+                "Grade view requested without authenticated session",
+            );
             return Err(VtopError::SessionExpired);
         }
-        log_debug("vtop_client", format!("Loading grade view for {semester_id}"));
+        log_debug(
+            "vtop_client",
+            format!("Loading grade view for {semester_id}"),
+        );
         let url = format!(
             "{}/vtop/examinations/examGradeView/doStudentGradeView",
             self.config.base_url
@@ -359,7 +418,11 @@ impl VtopClient {
             self.session.set_authenticated(false);
             log_warn(
                 "vtop_client",
-                format!("Grade view request failed or redirected: status={} url={}", res.status(), res.url()),
+                format!(
+                    "Grade view request failed or redirected: status={} url={}",
+                    res.status(),
+                    res.url()
+                ),
             );
             return Err(VtopError::SessionExpired);
         }
@@ -368,7 +431,10 @@ impl VtopClient {
         let parsed = parsegrades::parse_grade_view(text, semester_id.to_string());
         log_info(
             "vtop_client",
-            format!("Loaded {} grade courses for {semester_id}", parsed.courses.len()),
+            format!(
+                "Loaded {} grade courses for {semester_id}",
+                parsed.courses.len()
+            ),
         );
         Ok(parsed)
     }
@@ -379,7 +445,10 @@ impl VtopClient {
         course_id: &str,
     ) -> VtopResult<GradeDetailsData> {
         if !self.session.is_authenticated() {
-            log_warn("vtop_client", "Grade details requested without authenticated session");
+            log_warn(
+                "vtop_client",
+                "Grade details requested without authenticated session",
+            );
             return Err(VtopError::SessionExpired);
         }
         log_debug(
@@ -414,7 +483,11 @@ impl VtopClient {
             self.session.set_authenticated(false);
             log_warn(
                 "vtop_client",
-                format!("Grade details request failed or redirected: status={} url={}", res.status(), res.url()),
+                format!(
+                    "Grade details request failed or redirected: status={} url={}",
+                    res.status(),
+                    res.url()
+                ),
             );
             return Err(VtopError::SessionExpired);
         }
@@ -427,14 +500,20 @@ impl VtopClient {
         );
         log_info(
             "vtop_client",
-            format!("Loaded {} grade detail rows for {course_id}", parsed.marks.len()),
+            format!(
+                "Loaded {} grade detail rows for {course_id}",
+                parsed.marks.len()
+            ),
         );
         Ok(parsed)
     }
 
     pub async fn get_grade_history(&mut self) -> VtopResult<GradeHistoryData> {
         if !self.session.is_authenticated() {
-            log_warn("vtop_client", "Grade history requested without authenticated session");
+            log_warn(
+                "vtop_client",
+                "Grade history requested without authenticated session",
+            );
             return Err(VtopError::SessionExpired);
         }
         log_debug("vtop_client", "Loading grade history");
@@ -460,7 +539,11 @@ impl VtopClient {
             self.session.set_authenticated(false);
             log_warn(
                 "vtop_client",
-                format!("Grade history request failed or redirected: status={} url={}", res.status(), res.url()),
+                format!(
+                    "Grade history request failed or redirected: status={} url={}",
+                    res.status(),
+                    res.url()
+                ),
             );
             return Err(VtopError::SessionExpired);
         }
@@ -475,10 +558,16 @@ impl VtopClient {
 
     pub async fn get_exam_schedule(&mut self, semester_id: &str) -> VtopResult<ExamScheduleData> {
         if !self.session.is_authenticated() {
-            log_warn("vtop_client", "Exam schedule requested without authenticated session");
+            log_warn(
+                "vtop_client",
+                "Exam schedule requested without authenticated session",
+            );
             return Err(VtopError::SessionExpired);
         }
-        log_debug("vtop_client", format!("Loading exam schedule for {semester_id}"));
+        log_debug(
+            "vtop_client",
+            format!("Loading exam schedule for {semester_id}"),
+        );
         let url = format!(
             "{}/vtop/examinations/doSearchExamScheduleForStudent",
             self.config.base_url
@@ -503,7 +592,11 @@ impl VtopClient {
             self.session.set_authenticated(false);
             log_warn(
                 "vtop_client",
-                format!("Exam schedule request failed or redirected: status={} url={}", res.status(), res.url()),
+                format!(
+                    "Exam schedule request failed or redirected: status={} url={}",
+                    res.status(),
+                    res.url()
+                ),
             );
             return Err(VtopError::SessionExpired);
         }
@@ -511,7 +604,10 @@ impl VtopClient {
         let parsed = parsesched::parse_schedule(text, semester_id.to_string());
         log_info(
             "vtop_client",
-            format!("Loaded {} exam schedule groups for {semester_id}", parsed.exams.len()),
+            format!(
+                "Loaded {} exam schedule groups for {semester_id}",
+                parsed.exams.len()
+            ),
         );
         Ok(parsed)
     }
@@ -524,7 +620,10 @@ impl VtopClient {
     pub async fn login(&mut self) -> VtopResult<()> {
         log_info("vtop_client", "Starting VTOP login flow");
         if self.session.is_cookie_external() {
-            log_debug("vtop_client", "Trying external cookie before password login");
+            log_debug(
+                "vtop_client",
+                "Trying external cookie before password login",
+            );
             let cookie = self.get_cookie(false).await;
             match cookie {
                 Ok(value_of_cookie) => {
@@ -541,10 +640,7 @@ impl VtopClient {
                     self.session.set_cookie_external(false);
                 }
                 Err(e) => {
-                    log_warn(
-                        "vtop_client",
-                        format!("External cookie read failed: {e}"),
-                    );
+                    log_warn("vtop_client", format!("External cookie read failed: {e}"));
                     self.session.set_cookie_external(false);
                 }
             }
@@ -602,7 +698,11 @@ impl VtopClient {
         if !response.status().is_success() || response.url().to_string().contains("login") {
             log_warn(
                 "vtop_client",
-                format!("External cookie validation failed: status={} url={}", response.status(), response.url()),
+                format!(
+                    "External cookie validation failed: status={} url={}",
+                    response.status(),
+                    response.url()
+                ),
             );
             return Err(VtopError::VtopServerError);
         }
@@ -660,7 +760,10 @@ impl VtopClient {
                 // Err(VtopError::AuthenticationFailed(Self::get_login_page_error(
                 //     &response_text,
                 // )))
-                log_warn("vtop_client", "Login response reported unknown credential error");
+                log_warn(
+                    "vtop_client",
+                    "Login response reported unknown credential error",
+                );
                 return Err(VtopError::InvalidCredentials);
             }
         } else {
@@ -691,7 +794,11 @@ impl VtopClient {
         for attempt in 0..Max_RELOAD_ATTEMPTS {
             log_debug(
                 "vtop_client",
-                format!("Loading captcha page attempt {}/{}", attempt + 1, Max_RELOAD_ATTEMPTS),
+                format!(
+                    "Loading captcha page attempt {}/{}",
+                    attempt + 1,
+                    Max_RELOAD_ATTEMPTS
+                ),
             );
             let response = self
                 .client
@@ -736,7 +843,10 @@ impl VtopClient {
             self.captcha_data = Some(captcha_src.to_string());
             log_debug("vtop_client", "Captcha data extracted");
         } else {
-            log_warn("vtop_client", "Captcha image source did not contain base64 data");
+            log_warn(
+                "vtop_client",
+                "Captcha image source did not contain base64 data",
+            );
             return Err(VtopError::CaptchaRequired);
         }
 

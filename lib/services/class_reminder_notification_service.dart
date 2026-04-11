@@ -56,11 +56,10 @@ class ClassReminderNotificationService {
 
   static Future<bool> requestAndroidNotificationPermission() async {
     await ensureInitialized();
-    final android =
-        _notifications
-            .resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin
-            >();
+    final android = _notifications
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >();
 
     if (android == null) return true;
 
@@ -81,10 +80,9 @@ class ClassReminderNotificationService {
     await _notifications.show(
       id: DateTime.now().millisecondsSinceEpoch % 2147483647,
       title: "Vitap Mate Test",
-      body:
-          delaySeconds > 0
-              ? "Notification fired after ${delaySeconds}s delay."
-              : "Notification pipeline is working.",
+      body: delaySeconds > 0
+          ? "Notification fired after ${delaySeconds}s delay."
+          : "Notification pipeline is working.",
       notificationDetails: const NotificationDetails(
         android: AndroidNotificationDetails(
           channelId,

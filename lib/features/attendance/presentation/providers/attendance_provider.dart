@@ -10,8 +10,8 @@ class Attendance extends _$Attendance {
   @override
   Future<AttendanceData> build() async {
     final services = await ref.watch(appServicesProvider.future);
-    AttendanceData attendance =
-        await services.vtopDataRepository.loadAttendance();
+    AttendanceData attendance = await services.vtopDataRepository
+        .loadAttendance();
     if (attendance.semesterId.isEmpty) {
       attendance = await _update();
     }

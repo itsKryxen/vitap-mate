@@ -75,9 +75,10 @@ class MyApp extends HookConsumerWidget {
       routeInformationProvider: goRouter.routeInformationProvider,
       routeInformationParser: goRouter.routeInformationParser,
       routerDelegate: goRouter.routerDelegate,
-      builder:
-          (context, child) =>
-              FTheme(data: fTheme, child: FToaster(child: child!)),
+      builder: (context, child) => FTheme(
+        data: fTheme,
+        child: FToaster(child: child!),
+      ),
     );
   }
 }

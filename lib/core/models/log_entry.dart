@@ -6,6 +6,7 @@ class LogEntry {
     required this.timestamp,
     this.error,
     this.stackTrace,
+    this.caller,
     this.tags = const <String>[],
   });
 
@@ -15,6 +16,7 @@ class LogEntry {
   final DateTime timestamp;
   final String? error;
   final String? stackTrace;
+  final String? caller;
   final List<String> tags;
 
   Map<String, dynamic> toJson() {
@@ -25,6 +27,7 @@ class LogEntry {
       'timestamp': timestamp.toIso8601String(),
       'error': error,
       'stackTrace': stackTrace,
+      'caller': caller,
       'tags': tags,
     };
   }
@@ -42,6 +45,7 @@ class LogEntry {
           DateTime.now(),
       error: json['error'] as String?,
       stackTrace: json['stackTrace'] as String?,
+      caller: json['caller'] as String?,
       tags: (json['tags'] as List<dynamic>? ?? const <dynamic>[])
           .map((tag) => tag.toString())
           .toList(growable: false),

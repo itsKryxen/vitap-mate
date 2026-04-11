@@ -78,7 +78,10 @@ pub async fn fetch_exam_shedule(
     client: &mut VtopClient,
     semester_id: String,
 ) -> Result<ExamScheduleData, VtopError> {
-    log_debug("bridge", format!("Fetching exam schedule for {semester_id}"));
+    log_debug(
+        "bridge",
+        format!("Fetching exam schedule for {semester_id}"),
+    );
     client.get_exam_schedule(&semester_id).await
 }
 
