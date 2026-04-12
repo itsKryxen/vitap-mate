@@ -2,6 +2,7 @@ import 'package:growthbook_sdk_flutter/growthbook_sdk_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vitapmate/core/di/provider/vtop_user_provider.dart';
+import 'package:vitapmate/core/exceptions.dart';
 import 'package:vitapmate/core/utils/entity/vtop_user_entity.dart';
 import 'package:flutter/foundation.dart';
 part 'feature_flags.g.dart';
@@ -33,4 +34,23 @@ class Gb extends _$Gb {
     ).initialize();
     return gb;
   }
+}
+
+String? discontinuedMessage(GrowthBookSDK gb) {
+  final feature = gb.feature('discontinued');
+  if (!feature.on) return null;
+
+  final value = feature.value;
+  if (value is String && value.trim().isNotEmpty) {
+    return value.trim();
+  }
+
+  return 'This app has been discontinued.';
+}
+
+void throwIfDiscontinued(GrowthBookSDK gb) {
+  final message = discontinuedMessage(gb);
+  if (message == null) return;
+
+  throw DiscontinuedException(message);
 }

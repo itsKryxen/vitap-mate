@@ -169,6 +169,7 @@ class Grades extends _$Grades {
   }) async {
     final services = await ref.read(appServicesProvider.future);
     final gb = await ref.read(gbProvider.future);
+    throwIfDiscontinued(gb);
     final feature = gb.feature("fetch-grades");
     if (feature.on && feature.value) {
       await services.vtopDataRepository.loadGradesForSemester(

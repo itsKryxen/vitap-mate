@@ -1,5 +1,5 @@
 default_platform(:android)
-update_priority  =4;
+update_priority  =5;
 platform :android do
   desc "Deploy a new version to the Internal track only"
   lane :deploy_internal do
@@ -26,6 +26,15 @@ platform :android do
     skip_upload_screenshots: true,
     in_app_update_priority: update_priority 
     )
+    #  upload_to_play_store(
+    #   track: "internal",
+    #   track_promote_to:"alpha",
+    #   skip_upload_changelogs: true,
+    # skip_upload_metadata: true,
+    # skip_upload_images: true,
+    # skip_upload_screenshots: true,
+    # in_app_update_priority: update_priority 
+    # )
 
     # upload_to_play_store(
     #   track: "internal",

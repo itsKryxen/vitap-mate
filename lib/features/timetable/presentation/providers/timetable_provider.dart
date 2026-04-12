@@ -28,6 +28,7 @@ class Timetable extends _$Timetable {
   Future<TimetableData> _update() async {
     final services = await ref.read(appServicesProvider.future);
     var gb = await ref.read(gbProvider.future);
+    throwIfDiscontinued(gb);
     var feature = gb.feature("fetch-timetable");
     if (feature.on && feature.value) {
       return services.vtopDataRepository.loadTimetable(refresh: true);

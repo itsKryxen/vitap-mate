@@ -26,6 +26,7 @@ class Attendance extends _$Attendance {
   Future<AttendanceData> _update() async {
     final services = await ref.read(appServicesProvider.future);
     var gb = await ref.read(gbProvider.future);
+    throwIfDiscontinued(gb);
     var feature = gb.feature("fetch-attendance");
     if (feature.on && feature.value) {
       return services.vtopDataRepository.loadAttendance(refresh: true);

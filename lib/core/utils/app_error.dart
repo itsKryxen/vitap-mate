@@ -30,6 +30,9 @@ String appErrorMessage(Object error) {
   if (error is StateError) {
     return error.message;
   }
+  if (error is DiscontinuedException) {
+    return error.message;
+  }
   if (error is FeatureDisabledException) {
     return 'This feature is currently disabled. Please try again later.';
   }

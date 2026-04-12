@@ -5,6 +5,14 @@ class FeatureDisabledException implements Exception {
   String toString() => 'FeatureDisabledException: $message';
 }
 
+class DiscontinuedException implements Exception {
+  final String message;
+  const DiscontinuedException(this.message);
+
+  @override
+  String toString() => 'DiscontinuedException: $message';
+}
+
 class GoogleReauthRequiredException implements Exception {
   final String message;
   final Object? cause;

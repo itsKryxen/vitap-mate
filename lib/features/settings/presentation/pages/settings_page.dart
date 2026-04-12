@@ -72,7 +72,7 @@ class SettingsPage extends HookConsumerWidget {
                     suffix: FSwitch(
                       value: ref.watch(btwExamsProvider),
                       onChange: (value) {
-                        ref.read(toggleBTWExamsProvider);
+                        setBTWExams(ref, value);
                       },
                     ),
                   ),
@@ -105,30 +105,29 @@ class SettingsPage extends HookConsumerWidget {
                       onLongPress: () {
                         showFDialog(
                           context: context,
-                          builder:
-                              (context, style, animation) => FDialog(
-                                animation: animation,
-                                direction: Axis.horizontal,
-                                title: const Text('Are you absolutely sure?'),
-                                body: FTextField(
-                                  control: FTextFieldControl.managed(
-                                    controller: field15e,
-                                  ),
-                                ),
-                                actions: [
-                                  FButton(
-                                    child: const Text('Continue'),
-                                    onPress: () {
-                                      if (field15e.text.trim().toLowerCase() ==
-                                          "why") {
-                                        show15.value = true;
-                                      }
-
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ],
+                          builder: (context, style, animation) => FDialog(
+                            animation: animation,
+                            direction: Axis.horizontal,
+                            title: const Text('Are you absolutely sure?'),
+                            body: FTextField(
+                              control: FTextFieldControl.managed(
+                                controller: field15e,
                               ),
+                            ),
+                            actions: [
+                              FButton(
+                                child: const Text('Continue'),
+                                onPress: () {
+                                  if (field15e.text.trim().toLowerCase() ==
+                                      "why") {
+                                    show15.value = true;
+                                  }
+
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          ),
                         );
                       },
                       child: Text('Background Sync'),
@@ -136,12 +135,11 @@ class SettingsPage extends HookConsumerWidget {
 
                     selectControl: FMultiValueControl.managedRadio(
                       initial: initialValSync,
-                      onChange:
-                          (value) => {
-                            ref
-                                .read(backgroundSyncProvider.notifier)
-                                .updateFreq(value.first),
-                          },
+                      onChange: (value) => {
+                        ref
+                            .read(backgroundSyncProvider.notifier)
+                            .updateFreq(value.first),
+                      },
                     ),
                     menu: backgroundSync,
                   ),

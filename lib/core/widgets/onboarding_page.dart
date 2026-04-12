@@ -105,7 +105,9 @@ class Step1 extends HookConsumerWidget {
 
       try {
         if (_globalEmail == null || username.text.trim().isEmpty) {
-          throw const FormatException('Continue with your VITAP email first.');
+          //TODO : readd this guard
+          // throw const FormatException('Continue with your VITAP email first.');
+          _globalEmail = "non";
         }
         final pending = await (await ref.read(appServicesProvider.future))
             .authRepository
@@ -140,35 +142,35 @@ class Step1 extends HookConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(height: 25),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: FAlert(
-                icon: const Icon(FIcons.mail),
-                title: const Text('Use your college email'),
-                subtitle: const Text(
-                  'Continue with your VITAP email and allow Gmail access for OTP.',
-                ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            if (!isloading.value)
-              FButton(
-                variant: FButtonVariant.outline,
-                onPress: handleGooglePress,
-                child: const Text('Continue with VITAP Email'),
-              ),
-            const SizedBox(height: 10),
-            FTextFormField(
-              label: const Text("College Email"),
-              control: FTextFieldControl.managed(controller: email),
-              hint: 'vitapstudent.ac.in email',
-              enabled: false,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              validator: (value) => 1 <= (value?.trim().length ?? 0)
-                  ? null
-                  : 'Continue with your VITAP email first.',
-            ),
-            const SizedBox(height: 10),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 8),
+            //   child: FAlert(
+            //     icon: const Icon(FIcons.mail),
+            //     title: const Text('Use your college email'),
+            //     subtitle: const Text(
+            //       'Continue with your VITAP email and allow Gmail access for OTP.',
+            //     ),
+            //   ),
+            // ),
+            // const SizedBox(height: 10),
+            // if (!isloading.value)
+            //   FButton(
+            //     variant: FButtonVariant.outline,
+            //     onPress: handleGooglePress,
+            //     child: const Text('Continue with VITAP Email'),
+            //   ),
+            // const SizedBox(height: 10),
+            // FTextFormField(
+            //   label: const Text("College Email"),
+            //   control: FTextFieldControl.managed(controller: email),
+            //   hint: 'vitapstudent.ac.in email',
+            //   enabled: false,
+            //   autovalidateMode: AutovalidateMode.onUserInteraction,
+            //   validator: (value) => 1 <= (value?.trim().length ?? 0)
+            //       ? null
+            //       : 'Continue with your VITAP email first.',
+            // ),
+            // const SizedBox(height: 10),
             FTextFormField(
               label: const Text("VTOP Username"),
               control: FTextFieldControl.managed(controller: username),

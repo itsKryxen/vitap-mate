@@ -25,6 +25,7 @@ class Marks extends _$Marks {
   Future<MarksData> _update() async {
     final services = await ref.read(appServicesProvider.future);
     var gb = await ref.read(gbProvider.future);
+    throwIfDiscontinued(gb);
     var feature = gb.feature("fetch-marks");
     if (feature.on && feature.value) {
       return services.vtopDataRepository.loadMarks(refresh: true);

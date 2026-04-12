@@ -33,6 +33,7 @@ class GradeHistory extends _$GradeHistory {
   Future<(GradeHistoryData, bool)> _update({required bool hasLocalData}) async {
     final services = await ref.read(appServicesProvider.future);
     final gb = await ref.read(gbProvider.future);
+    throwIfDiscontinued(gb);
     final feature = gb.feature("fetch-grade-history");
     if (feature.on && feature.value) {
       return (

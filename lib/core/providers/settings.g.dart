@@ -48,7 +48,7 @@ final class SettingsProvider
   }
 }
 
-String _$settingsHash() => r'73cb70c94c63cbe7b07dac26281c422c5e3692eb';
+String _$settingsHash() => r'231d23db48bf8ef50e0d6dfec1f78d9180943ced';
 
 @ProviderFor(mergeTT)
 final mergeTTProvider = MergeTTProvider._();
@@ -236,6 +236,155 @@ final class AutoRefreshOnOpenProvider
 }
 
 String _$autoRefreshOnOpenHash() => r'7764a675809137b4c16effd74988e7fb224fc53a';
+
+@ProviderFor(studentProjectPinnedIds)
+final studentProjectPinnedIdsProvider = StudentProjectPinnedIdsProvider._();
+
+final class StudentProjectPinnedIdsProvider
+    extends $FunctionalProvider<Set<int>, Set<int>, Set<int>>
+    with $Provider<Set<int>> {
+  StudentProjectPinnedIdsProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'studentProjectPinnedIdsProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$studentProjectPinnedIdsHash();
+
+  @$internal
+  @override
+  $ProviderElement<Set<int>> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  Set<int> create(Ref ref) {
+    return studentProjectPinnedIds(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(Set<int> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<Set<int>>(value),
+    );
+  }
+}
+
+String _$studentProjectPinnedIdsHash() =>
+    r'9bba55d0d44e1aabcebc1bbe66acecd2e7b47de5';
+
+@ProviderFor(StudentProjectsPinnedOnlySession)
+final studentProjectsPinnedOnlySessionProvider =
+    StudentProjectsPinnedOnlySessionProvider._();
+
+final class StudentProjectsPinnedOnlySessionProvider
+    extends $NotifierProvider<StudentProjectsPinnedOnlySession, bool> {
+  StudentProjectsPinnedOnlySessionProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'studentProjectsPinnedOnlySessionProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$studentProjectsPinnedOnlySessionHash();
+
+  @$internal
+  @override
+  StudentProjectsPinnedOnlySession create() =>
+      StudentProjectsPinnedOnlySession();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(bool value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<bool>(value),
+    );
+  }
+}
+
+String _$studentProjectsPinnedOnlySessionHash() =>
+    r'31fcdc0854cc8d93c1441bcb41493b198e913531';
+
+abstract class _$StudentProjectsPinnedOnlySession extends $Notifier<bool> {
+  bool build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<bool, bool>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<bool, bool>,
+              bool,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(studentProjectsSettingsController)
+final studentProjectsSettingsControllerProvider =
+    StudentProjectsSettingsControllerProvider._();
+
+final class StudentProjectsSettingsControllerProvider
+    extends
+        $FunctionalProvider<
+          StudentProjectsSettingsController,
+          StudentProjectsSettingsController,
+          StudentProjectsSettingsController
+        >
+    with $Provider<StudentProjectsSettingsController> {
+  StudentProjectsSettingsControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'studentProjectsSettingsControllerProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() =>
+      _$studentProjectsSettingsControllerHash();
+
+  @$internal
+  @override
+  $ProviderElement<StudentProjectsSettingsController> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  StudentProjectsSettingsController create(Ref ref) {
+    return studentProjectsSettingsController(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(StudentProjectsSettingsController value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<StudentProjectsSettingsController>(
+        value,
+      ),
+    );
+  }
+}
+
+String _$studentProjectsSettingsControllerHash() =>
+    r'019e40b28dfa09889d3088a245789e386fde9c49';
 
 @ProviderFor(classReminderSettings)
 final classReminderSettingsProvider = ClassReminderSettingsProvider._();

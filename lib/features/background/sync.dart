@@ -43,6 +43,9 @@ Future<bool> _syncData({String? task}) async {
       return true;
     }
     var gb = await container.read(gbProvider.future);
+    if (discontinuedMessage(gb) != null) {
+      return true;
+    }
     var feature = gb.feature("background-sync");
     if (!(feature.on && feature.value)) {
       return true;

@@ -44,6 +44,7 @@ class VClient extends _$VClient {
     VtopUserEntity user = await ref.watch(vtopUserProvider.future);
     if (!user.isValid) throw VtopError.invalidCredentials();
     var gb = await ref.read(gbProvider.future);
+    throwIfDiscontinued(gb);
     var feature = gb.feature("try-login");
     if (!feature.on || !feature.value) {
       throw FeatureDisabledException("Login is Disabled");

@@ -33,7 +33,7 @@ final class BackgroundSyncProvider
   BackgroundSync create() => BackgroundSync();
 }
 
-String _$backgroundSyncHash() => r'8caa83eb6cde26fe8ea51fd5dd561432e9a1ea31';
+String _$backgroundSyncHash() => r'844b5f3f4e4c7f0129704de6c452c221d3871f37';
 
 abstract class _$BackgroundSync extends $AsyncNotifier<SyncState> {
   FutureOr<SyncState> build();

@@ -18,6 +18,9 @@ Future<SharedPreferencesWithCache> settings(Ref ref) async {
         "settings_exam_notifications_enabled",
         "settings_exam_notify_before_minutes",
         "settings_auto_refresh_on_open",
+        "settings_student_projects_pinned_ids",
+        "settings_student_projects_json",
+        "settings_student_projects_rotation_seed",
       },
     ),
   );
@@ -55,6 +58,13 @@ Future<void> toggleBTWExams(Ref ref) async {
   ref.invalidate(btwExamsProvider);
 }
 
+Future<void> setBTWExams(WidgetRef ref, bool value) async {
+  final prefs = await ref.read(settingsProvider.future);
+  await prefs.setBool("settings_btw_atten", value);
+
+  ref.invalidate(btwExamsProvider);
+}
+
 @riverpod
 bool autoRefreshOnOpen(Ref ref) {
   final prefs = ref.watch(settingsProvider).value;
@@ -66,6 +76,58 @@ Future<void> setAutoRefreshOnOpen(WidgetRef ref, bool value) async {
   await prefs.setBool("settings_auto_refresh_on_open", value);
 
   ref.invalidate(autoRefreshOnOpenProvider);
+}
+
+@riverpod
+Set<int> studentProjectPinnedIds(Ref ref) {
+  final prefs = ref.watch(settingsProvider).value;
+  final list =
+      prefs?.getStringList("settings_student_projects_pinned_ids") ?? [];
+  return list.map(int.tryParse).whereType<int>().toSet();
+}
+
+@riverpod
+class StudentProjectsPinnedOnlySession
+    extends _$StudentProjectsPinnedOnlySession {
+  @override
+  bool build() => false;
+
+  void toggle() {
+    state = !state;
+  }
+}
+
+@Riverpod(keepAlive: true)
+StudentProjectsSettingsController studentProjectsSettingsController(Ref ref) {
+  return StudentProjectsSettingsController(ref);
+}
+
+class StudentProjectsSettingsController {
+  final Ref ref;
+  StudentProjectsSettingsController(this.ref);
+
+  Future<void> togglePinned(int id) async {
+    if (!ref.mounted) return;
+    final prefs = await ref.read(settingsProvider.future);
+    if (!ref.mounted) return;
+    final current =
+        (prefs.getStringList("settings_student_projects_pinned_ids") ?? [])
+            .map(int.tryParse)
+            .whereType<int>()
+            .toSet();
+    if (current.contains(id)) {
+      current.remove(id);
+    } else {
+      current.add(id);
+    }
+    final sorted = current.toList()..sort();
+    await prefs.setStringList(
+      "settings_student_projects_pinned_ids",
+      sorted.map((e) => "$e").toList(),
+    );
+    if (!ref.mounted) return;
+    ref.invalidate(studentProjectPinnedIdsProvider);
+  }
 }
 
 class ClassReminderSettings {

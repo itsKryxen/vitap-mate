@@ -36,6 +36,8 @@ void disCommonToast(BuildContext context, Object e) {
       ),
       suffixBuilder: _dismissToastButton,
     );
+  } else if (e is DiscontinuedException) {
+    showDiscontinuedDialog(context, e.message);
   } else if (e is FeatureDisabledException) {
     showFToast(
       context: context,
@@ -71,6 +73,8 @@ void disOnbardingCommonToast(BuildContext context, Object e) {
       ),
       suffixBuilder: _dismissToastButton,
     );
+  } else if (e is DiscontinuedException) {
+    showDiscontinuedDialog(context, e.message);
   } else if (e is FeatureDisabledException) {
     showFToast(
       context: context,
@@ -83,6 +87,25 @@ void disOnbardingCommonToast(BuildContext context, Object e) {
   } else {
     dispToast(context, 'Login Failed', appErrorMessage(e));
   }
+}
+
+void showDiscontinuedDialog(BuildContext context, String message) {
+  if (!context.mounted) return;
+  showFDialog<void>(
+    context: context,
+    builder: (context, style, animation) => FDialog(
+      animation: animation,
+      direction: Axis.horizontal,
+      title: const Text('App discontinued'),
+      body: Text(message),
+      actions: [
+        FButton(
+          onPress: () => Navigator.of(context).pop(),
+          child: const Text('OK'),
+        ),
+      ],
+    ),
+  );
 }
 
 void dispToast(BuildContext context, String title, String des) {
