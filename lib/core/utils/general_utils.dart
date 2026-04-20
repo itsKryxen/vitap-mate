@@ -23,8 +23,11 @@ String commonErrorMessage(Object e) {
     return "You're offline. Please check your connection and try again by refreshing.";
   } else if (e is FeatureDisabledException) {
     return 'This feature is currently disabled. Please try again in a while';
+  } else if (e.toString().contains('otpRequired') || e == const VtopError.otpRequired()) {
+    return 'VTOP requires 2FA OTP. Please navigate to Settings > Manage Users and re-verify your account to enter the OTP.';
   } else {
-    return "Something went wrong. Please try reopening the app.";
+    log("Unknown Error: $e\nStacktrace: ${StackTrace.current}");
+    return "Something went wrong. Please try reopening the app. Error: $e";
   }
 }
 

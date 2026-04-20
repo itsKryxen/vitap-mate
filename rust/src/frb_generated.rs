@@ -41,7 +41,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1833856223;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 867035019;
 
 // Section: executor
 
@@ -1490,6 +1490,68 @@ fn wire__crate__api__vtop__vtop_client__VtopClient_set_cookie_impl(
         },
     )
 }
+fn wire__crate__api__vtop__vtop_client__VtopClient_submit_otp_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::SseCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "VtopClient_submit_otp",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<VtopClient>,
+            >>::sse_decode(&mut deserializer);
+            let api_otp = <String>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| async move {
+                transform_result_sse::<_, ()>(
+                    (move || async move {
+                        let mut api_that_guard = None;
+                        let decode_indices_ =
+                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
+                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                                    &api_that, 0, true,
+                                )],
+                            );
+                        for i in decode_indices_ {
+                            match i {
+                                0 => {
+                                    api_that_guard =
+                                        Some(api_that.lockable_decode_async_ref_mut().await)
+                                }
+                                _ => unreachable!(),
+                            }
+                        }
+                        let mut api_that_guard = api_that_guard.unwrap();
+                        let output_ok = Result::<_, ()>::Ok(
+                            crate::api::vtop::vtop_client::VtopClient::submit_otp(
+                                &mut *api_that_guard,
+                                &api_otp,
+                            )
+                            .await,
+                        )?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
 fn wire__crate__api__vtop__vtop_client__VtopClient_with_config_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
@@ -2779,6 +2841,68 @@ fn wire__crate__api__vtop_get_client__vtop_client_login_impl(
                         let output_ok =
                             crate::api::vtop_get_client::vtop_client_login(&mut *api_client_guard)
                                 .await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__vtop_get_client__vtop_client_submit_otp_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::SseCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "vtop_client_submit_otp",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_client = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<VtopClient>,
+            >>::sse_decode(&mut deserializer);
+            let api_otp = <String>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| async move {
+                transform_result_sse::<_, crate::api::vtop::vtop_errors::VtopError>(
+                    (move || async move {
+                        let mut api_client_guard = None;
+                        let decode_indices_ =
+                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
+                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                                    &api_client,
+                                    0,
+                                    true,
+                                )],
+                            );
+                        for i in decode_indices_ {
+                            match i {
+                                0 => {
+                                    api_client_guard =
+                                        Some(api_client.lockable_decode_async_ref_mut().await)
+                                }
+                                _ => unreachable!(),
+                            }
+                        }
+                        let mut api_client_guard = api_client_guard.unwrap();
+                        let output_ok = crate::api::vtop_get_client::vtop_client_submit_otp(
+                            &mut *api_client_guard,
+                            api_otp,
+                        )
+                        .await?;
                         Ok(output_ok)
                     })()
                     .await,
@@ -4100,6 +4224,9 @@ impl SseDecode for crate::api::vtop::vtop_errors::VtopError {
             9 => {
                 return crate::api::vtop::vtop_errors::VtopError::InvalidResponse;
             }
+            10 => {
+                return crate::api::vtop::vtop_errors::VtopError::OtpRequired;
+            }
             _ => {
                 unimplemented!("");
             }
@@ -4272,147 +4399,159 @@ fn pde_ffi_dispatcher_primary_impl(
             rust_vec_len,
             data_len,
         ),
-        27 => wire__crate__api__vtop__vtop_client__VtopClient_with_config_impl(
+        27 => wire__crate__api__vtop__vtop_client__VtopClient_submit_otp_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        28 => wire__crate__api__vtop_get_client__fetch_attendance_impl(
+        28 => wire__crate__api__vtop__vtop_client__VtopClient_with_config_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        29 => {
+        29 => wire__crate__api__vtop_get_client__fetch_attendance_impl(
+            port,
+            ptr,
+            rust_vec_len,
+            data_len,
+        ),
+        30 => {
             wire__crate__api__vtop_get_client__fetch_cookies_impl(port, ptr, rust_vec_len, data_len)
         }
-        30 => wire__crate__api__vtop_get_client__fetch_exam_shedule_impl(
+        31 => wire__crate__api__vtop_get_client__fetch_exam_shedule_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        31 => wire__crate__api__vtop_get_client__fetch_full_attendance_impl(
+        32 => wire__crate__api__vtop_get_client__fetch_full_attendance_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        32 => wire__crate__api__vtop_get_client__fetch_grade_history_impl(
+        33 => wire__crate__api__vtop_get_client__fetch_grade_history_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        33 => wire__crate__api__vtop_get_client__fetch_grade_view_impl(
+        34 => wire__crate__api__vtop_get_client__fetch_grade_view_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        34 => wire__crate__api__vtop_get_client__fetch_grade_view_details_impl(
+        35 => wire__crate__api__vtop_get_client__fetch_grade_view_details_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        35 => {
+        36 => {
             wire__crate__api__vtop_get_client__fetch_is_auth_impl(port, ptr, rust_vec_len, data_len)
         }
-        36 => {
+        37 => {
             wire__crate__api__vtop_get_client__fetch_marks_impl(port, ptr, rust_vec_len, data_len)
         }
-        37 => wire__crate__api__vtop_get_client__fetch_semesters_impl(
+        38 => wire__crate__api__vtop_get_client__fetch_semesters_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        38 => wire__crate__api__vtop_get_client__fetch_timetable_impl(
+        39 => wire__crate__api__vtop_get_client__fetch_timetable_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        39 => wire__crate__api__vtop_get_client__fetch_wifi_impl(port, ptr, rust_vec_len, data_len),
-        40 => wire__crate__api__vtop__paraser__wifi_portal__find_captivative_portal_impl(
+        40 => wire__crate__api__vtop_get_client__fetch_wifi_impl(port, ptr, rust_vec_len, data_len),
+        41 => wire__crate__api__vtop__paraser__wifi_portal__find_captivative_portal_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        43 => wire__crate__api__simple__init_app_impl(port, ptr, rust_vec_len, data_len),
-        44 => wire__crate__api__vtop__paraser__parseattn__parse_attendance_impl(
+        44 => wire__crate__api__simple__init_app_impl(port, ptr, rust_vec_len, data_len),
+        45 => wire__crate__api__vtop__paraser__parseattn__parse_attendance_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        45 => wire__crate__api__vtop__paraser__parseattn__parse_full_attendance_impl(
+        46 => wire__crate__api__vtop__paraser__parseattn__parse_full_attendance_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        46 => wire__crate__api__vtop__paraser__parsegradehistory__parse_grade_history_impl(
+        47 => wire__crate__api__vtop__paraser__parsegradehistory__parse_grade_history_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        47 => wire__crate__api__vtop__paraser__parsegrades__parse_grade_view_impl(
+        48 => wire__crate__api__vtop__paraser__parsegrades__parse_grade_view_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        48 => wire__crate__api__vtop__paraser__parsegrades__parse_grade_view_details_impl(
+        49 => wire__crate__api__vtop__paraser__parsegrades__parse_grade_view_details_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        49 => wire__crate__api__vtop__paraser__parsemarks__parse_marks_impl(
+        50 => wire__crate__api__vtop__paraser__parsemarks__parse_marks_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        50 => wire__crate__api__vtop__paraser__parsesched__parse_schedule_impl(
+        51 => wire__crate__api__vtop__paraser__parsesched__parse_schedule_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        51 => wire__crate__api__vtop__paraser__parsett__parse_semid_timetable_impl(
+        52 => wire__crate__api__vtop__paraser__parsett__parse_semid_timetable_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        52 => wire__crate__api__vtop__paraser__parsett__parse_timetable_impl(
+        53 => wire__crate__api__vtop__paraser__parsett__parse_timetable_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        53 => wire__crate__api__vtop_get_client__vtop_client_login_impl(
+        54 => wire__crate__api__vtop_get_client__vtop_client_login_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        54 => wire__crate__api__vtop__vtop_config__vtop_config_default_impl(
+        55 => wire__crate__api__vtop_get_client__vtop_client_submit_otp_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        55 => {
+        56 => wire__crate__api__vtop__vtop_config__vtop_config_default_impl(
+            port,
+            ptr,
+            rust_vec_len,
+            data_len,
+        ),
+        57 => {
             wire__crate__api__vtop__wifi__wifi_login_logout_impl(port, ptr, rust_vec_len, data_len)
         }
-        56 => wire__crate__api__vtop__wifi__wifi_login_logout_hostel_impl(
+        58 => wire__crate__api__vtop__wifi__wifi_login_logout_hostel_impl(
             port,
             ptr,
             rust_vec_len,
@@ -4430,8 +4569,8 @@ fn pde_ffi_dispatcher_sync_impl(
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
     // Codec=Pde (Serialization + dispatch), see doc to use other codecs
     match func_id {
-        41 => wire__crate__api__vtop_get_client__get_vtop_client_impl(ptr, rust_vec_len, data_len),
-        42 => wire__crate__api__simple__greet_impl(ptr, rust_vec_len, data_len),
+        42 => wire__crate__api__vtop_get_client__get_vtop_client_impl(ptr, rust_vec_len, data_len),
+        43 => wire__crate__api__simple__greet_impl(ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -5371,6 +5510,7 @@ impl flutter_rust_bridge::IntoDart for crate::api::vtop::vtop_errors::VtopError 
             crate::api::vtop::vtop_errors::VtopError::InvalidResponse => {
                 [9.into_dart()].into_dart()
             }
+            crate::api::vtop::vtop_errors::VtopError::OtpRequired => [10.into_dart()].into_dart(),
             _ => {
                 unimplemented!("");
             }
@@ -6271,6 +6411,9 @@ impl SseEncode for crate::api::vtop::vtop_errors::VtopError {
             }
             crate::api::vtop::vtop_errors::VtopError::InvalidResponse => {
                 <i32>::sse_encode(9, serializer);
+            }
+            crate::api::vtop::vtop_errors::VtopError::OtpRequired => {
+                <i32>::sse_encode(10, serializer);
             }
             _ => {
                 unimplemented!("");

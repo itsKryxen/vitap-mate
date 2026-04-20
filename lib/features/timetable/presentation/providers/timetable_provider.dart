@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vitapmate/core/di/provider/clinet_provider.dart';
 import 'package:vitapmate/core/exceptions.dart';
@@ -51,7 +52,7 @@ class Timetable extends _$Timetable {
     var repo = await ref.read(timetableRepositoryProvider.future);
     var gb = await ref.read(gbProvider.future);
     var feature = gb.feature("fetch-timetable");
-    if (feature.on && feature.value) {
+    if (kDebugMode || (feature.on && feature.value)) {
       var data = await UpdateTimetableUsecase(repo).call();
       return data;
     } else {

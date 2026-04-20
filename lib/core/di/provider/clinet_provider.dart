@@ -1,6 +1,11 @@
 import 'dart:async';
 import 'dart:developer';
+import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:forui/forui.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vitapmate/core/router/router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vitapmate/core/di/provider/global_async_queue_provider.dart';
 import 'package:vitapmate/core/di/provider/vtop_user_provider.dart';
@@ -61,7 +66,7 @@ class VClient extends _$VClient {
     if (!user.isValid) throw VtopError.invalidCredentials();
     var gb = await ref.read(gbProvider.future);
     var feature = gb.feature("try-login");
-    if (!feature.on || !feature.value) {
+    if (!kDebugMode && (!feature.on || !feature.value)) {
       throw FeatureDisabledException("Login is Disabled");
     }
     log("login try");
@@ -71,7 +76,55 @@ class VClient extends _$VClient {
           .read(globalAsyncQueueProvider.notifier)
           .run(
             "vtop_login_${user.username}",
-            () => vtopClientLogin(client: client),
+            () async {
+              try {
+                await vtopClientLogin(client: client);
+              } catch (err) {
+                if (err.toString().contains('otpRequired') || err == const VtopError.otpRequired()) {
+                  final context = rootNavigatorKey.currentContext;
+                  if (context != null && context.mounted) {
+                    final otpController = TextEditingController();
+                    final submittedOtp = await showAdaptiveDialog<String>(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext dialogContext) {
+                        return FDialog(
+                          title: const Text("VTOP OTP Validation"),
+                          body: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Text("An OTP has been sent to your registered email. Valid for 3 minute."),
+                              const SizedBox(height: 10),
+                              FTextFormField(
+                                controller: otpController,
+                                hint: 'Enter OTP',
+                              ),
+                            ],
+                          ),
+                          actions: [
+                            FButton(
+                              onPress: () => Navigator.of(dialogContext).pop(null),
+                              style: FButtonStyle.outline(),
+                              child: const Text('Cancel'),
+                            ),
+                            FButton(
+                              onPress: () => Navigator.of(dialogContext).pop(otpController.text),
+                              child: const Text('Verify OTP'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                    if (submittedOtp != null && submittedOtp.isNotEmpty) {
+                      await vtopClientSubmitOtp(client: client, otp: submittedOtp);
+                      return; // Success
+                    }
+                  }
+                  throw Exception("OTP verification cancelled");
+                }
+                rethrow;
+              }
+            },
           );
       var newCookie =
           String.fromCharCodes(

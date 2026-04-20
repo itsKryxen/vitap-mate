@@ -88,11 +88,16 @@ class TimetablePage extends HookConsumerWidget {
                   child: timetableData.when(
                     data: (data) {
                       final tempList = getDayList(data);
-                      finalDay.value = tempList;
-
-                      if (!tempList.contains(selectedDay.value)) {
-                        selectedDay.value = tempList.first;
-                      }
+                      // Defer state mutations to avoid setState-during-build
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        if (finalDay.value.length != tempList.length ||
+                            !finalDay.value.every((e) => tempList.contains(e))) {
+                          finalDay.value = tempList;
+                        }
+                        if (!tempList.contains(selectedDay.value) && tempList.isNotEmpty) {
+                          selectedDay.value = tempList.first;
+                        }
+                      });
                       var tempdays = getDaySlotList(data, selectedDay.value);
 
                       if (mergeLabs) {
@@ -133,7 +138,10 @@ class TimetablePage extends HookConsumerWidget {
                       );
                     },
                     error: (e, stackTrace) {
-                      disCommonToast(context, e);
+                      // Defer toast to avoid setState-during-build
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        if (context.mounted) disCommonToast(context, e);
+                      });
                       return Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,

@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vitapmate/core/di/provider/clinet_provider.dart';
 import 'package:vitapmate/core/exceptions.dart';
@@ -37,7 +38,7 @@ class Attendance extends _$Attendance {
     var repo = await ref.read(attendanceRepositoryProvider.future);
     var gb = await ref.read(gbProvider.future);
     var feature = gb.feature("fetch-attendance");
-    if (feature.on && feature.value) {
+    if (kDebugMode || (feature.on && feature.value)) {
       var data = await UpdateAttendanceUsecase(repo).call();
 
       return data;

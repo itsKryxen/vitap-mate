@@ -27,6 +27,12 @@ pub fn get_vtop_client(username: String, password: String, cookie: Option<String
 pub async fn vtop_client_login(client: &mut VtopClient) -> Result<(), VtopError> {
     client.login().await
 }
+
+#[flutter_rust_bridge::frb()]
+pub async fn vtop_client_submit_otp(client: &mut VtopClient, otp: String) -> Result<(), VtopError> {
+    client.submit_otp(&otp).await
+}
+
 #[flutter_rust_bridge::frb()]
 pub async fn fetch_semesters(client: &mut VtopClient) -> Result<SemesterData, VtopError> {
     client.get_semesters(true).await

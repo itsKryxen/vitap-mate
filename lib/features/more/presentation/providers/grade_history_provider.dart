@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vitapmate/core/di/provider/clinet_provider.dart';
 import 'package:vitapmate/core/exceptions.dart';
@@ -37,7 +38,7 @@ class GradeHistory extends _$GradeHistory {
     final repo = await ref.read(gradeHistoryRepositoryProvider.future);
     final gb = await ref.read(gbProvider.future);
     final feature = gb.feature("fetch-grade-history");
-    if (feature.on && feature.value) {
+    if (kDebugMode || (feature.on && feature.value)) {
       await ref.read(vClientProvider.notifier).tryLogin();
       return (await UpdateGradeHistoryUsecase(repo).call(), true);
     } else {

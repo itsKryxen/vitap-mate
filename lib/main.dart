@@ -19,24 +19,30 @@ import 'package:vitapmate/src/api/vtop/vtop_errors.dart';
 import 'package:vitapmate/src/frb_generated.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:workmanager/workmanager.dart';
-import 'firebase_options.dart';
+// import 'firebase_options.dart';
 
 var notifications = NotificationService.instance;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Workmanager().initialize(callbackDispatcher);
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  try {
+    await Firebase.initializeApp();
+    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+    FlutterError.onError = (errorDetails) {
+      FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+    };
+  } catch (e) {
+    debugPrint("Firebase init failed: $e");
+  }
   await notifications.initialize();
-  FlutterError.onError = (errorDetails) {
-    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
-  };
   PlatformDispatcher.instance.onError = (error, stack) {
     if (error is VtopError) {
       return true;
     }
-    FirebaseCrashlytics.instance.recordError(error, stack, fatal: false);
+    try {
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: false);
+    } catch (_) {}
     return true;
   };
   await RustLib.init();

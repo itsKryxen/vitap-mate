@@ -47,6 +47,8 @@ abstract class VtopClient implements RustOpaqueInterface {
 
   Future<void> setCookie({required String cookie});
 
+  Future<VtopResult> submitOtp({required String otp});
+
   static Future<VtopClient> withConfig({
     required VtopConfig config,
     required SessionManager session,

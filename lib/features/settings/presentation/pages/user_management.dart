@@ -1,5 +1,6 @@
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:forui/forui.dart';
 import 'package:forui_hooks/forui_hooks.dart';
@@ -336,13 +337,65 @@ class Useradd extends HookConsumerWidget {
                         final pass = password.text.trim();
                         if (uname.isEmpty || pass.isEmpty) return;
                         loading.value = true;
-                        try {
-                          final client = getVtopClient(
-                            username: uname,
-                            password: pass,
-                          );
-                          await vtopClientLogin(client: client);
-                          semData.value = await fetchSemesters(client: client);
+                          try {
+                            final client = getVtopClient(
+                              username: uname,
+                              password: pass,
+                            );
+                            try {
+                              await vtopClientLogin(client: client);
+                            } catch (e) {
+                              final errorString = e.toString().toLowerCase();
+                              if (errorString.contains("otprequired") || errorString.contains("otp verification") || errorString.contains("otp")) {
+                                if (context.mounted) {
+                                  final otpController = TextEditingController();
+                                  final submittedOtp = await showAdaptiveDialog<String>(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return FDialog(
+                                        title: const Text("OTP Required"),
+                                        body: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            const Text("An OTP has been sent to your registered email. Valid for 3 minute."),
+                                            const SizedBox(height: 10),
+                                            FTextFormField(
+                                              controller: otpController,
+                                              hint: 'Enter OTP',
+                                            ),
+                                          ],
+                                        ),
+                                        actions: [
+                                          FButton(
+                                            onPress: () => Navigator.of(context).pop(null),
+                                            style: FButtonStyle.outline(),
+                                            child: const Text('Cancel'),
+                                          ),
+                                          FButton(
+                                            onPress: () => Navigator.of(context).pop(otpController.text),
+                                            child: const Text('Verify OTP'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+
+                                  if (submittedOtp != null && submittedOtp.isNotEmpty) {
+                                    await vtopClientSubmitOtp(client: client, otp: submittedOtp);
+                                    // Save the new authenticated cookie globally!
+                                    final newCookie = String.fromCharCodes(await fetchCookies(client: client)).split(";").first.trim();
+                                    final storage = await SharedPreferences.getInstance();
+                                    await storage.setString("cookie_$uname", newCookie);
+                                    await storage.setInt("cookie_time_$uname", DateTime.now().toUtc().millisecondsSinceEpoch);
+                                  } else {
+                                    throw Exception("OTP verification cancelled");
+                                  }
+                                }
+                              } else {
+                                rethrow;
+                              }
+                            }
+                            semData.value = await fetchSemesters(client: client);
                         } catch (e) {
                           if (context.mounted) {
                             Navigator.of(context).pop();

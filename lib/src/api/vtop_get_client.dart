@@ -23,6 +23,14 @@ VtopClient getVtopClient({
 Future<void> vtopClientLogin({required VtopClient client}) =>
     RustLib.instance.api.crateApiVtopGetClientVtopClientLogin(client: client);
 
+Future<void> vtopClientSubmitOtp({
+  required VtopClient client,
+  required String otp,
+}) => RustLib.instance.api.crateApiVtopGetClientVtopClientSubmitOtp(
+  client: client,
+  otp: otp,
+);
+
 Future<SemesterData> fetchSemesters({required VtopClient client}) =>
     RustLib.instance.api.crateApiVtopGetClientFetchSemesters(client: client);
 

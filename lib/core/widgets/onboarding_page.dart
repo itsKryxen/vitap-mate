@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:forui/forui.dart';
 import 'package:go_router/go_router.dart';
@@ -109,7 +110,64 @@ class Step1 extends HookConsumerWidget {
           username: username.text,
           password: password.text,
         );
-        await vtopClientLogin(client: client);
+        try {
+          await vtopClientLogin(client: client);
+        } catch (e) {
+          final errorString = e.toString().toLowerCase();
+          if (errorString.contains("otprequired") || errorString.contains("otp verification") || errorString.contains("otp")) {
+            bool otpSubmitted = false;
+            // Ask for OTP using an alert dialog
+            if (context.mounted) {
+              final otpController = TextEditingController();
+              final submittedOtp = await showAdaptiveDialog<String>(
+                context: context,
+                builder: (BuildContext context) {
+                  return FDialog(
+                    title: const Text("OTP Required"),
+                    body: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text("An OTP has been sent to your registered email. Valid for 3 minute."),
+                        const SizedBox(height: 10),
+                        FTextFormField(
+                          controller: otpController,
+                          hint: 'Enter OTP',
+                        ),
+                      ],
+                    ),
+                    actions: [
+                      FButton(
+                        onPress: () => Navigator.of(context).pop(null),
+                        style: FButtonStyle.outline(),
+                        child: const Text('Cancel'),
+                      ),
+                      FButton(
+                        onPress: () => Navigator.of(context).pop(otpController.text),
+                        child: const Text('Verify OTP'),
+                      ),
+                    ],
+                  );
+                },
+              );
+
+              if (submittedOtp != null && submittedOtp.isNotEmpty) {
+                // Submit the OTP
+                await vtopClientSubmitOtp(client: client, otp: submittedOtp);
+                // Save the new authenticated cookie globally!
+                final newCookie = String.fromCharCodes(await fetchCookies(client: client)).split(";").first.trim();
+                final storage = await SharedPreferences.getInstance();
+                final uname = username.text.trim();
+                await storage.setString("cookie_$uname", newCookie);
+                await storage.setInt("cookie_time_$uname", DateTime.now().toUtc().millisecondsSinceEpoch);
+                otpSubmitted = true;
+              } else {
+                throw Exception("OTP verification cancelled");
+              }
+            }
+          } else {
+            rethrow;
+          }
+        }
         _globalUsername = username.text;
         _globalPassword = password.text;
         _globalClient = client;
@@ -117,6 +175,21 @@ class Step1 extends HookConsumerWidget {
       } catch (e) {
         if (context.mounted) {
           disOnbardingCommonToast(context, e);
+          showAdaptiveDialog(
+            context: context,
+            builder: (errorContext) => FDialog(
+              title: const Text("Error during login"),
+              body: SingleChildScrollView(
+                child: Text(e.toString()),
+              ),
+              actions: [
+                FButton(
+                  onPress: () => Navigator.of(errorContext).pop(),
+                  child: const Text("Close"),
+                )
+              ],
+            ),
+          );
         }
       } finally {
         isloading.value = false;
@@ -193,6 +266,21 @@ class Step2 extends HookConsumerWidget {
       } catch (e) {
         if (context.mounted) {
           disOnbardingCommonToast(context, e);
+          showAdaptiveDialog(
+            context: context,
+            builder: (errorContext) => FDialog(
+              title: const Text("Error fetching semesters"),
+              body: SingleChildScrollView(
+                child: Text(e.toString()),
+              ),
+              actions: [
+                FButton(
+                  onPress: () => Navigator.of(errorContext).pop(),
+                  child: const Text("Close"),
+                )
+              ],
+            ),
+          );
         }
       } finally {
         fetching.value = false;

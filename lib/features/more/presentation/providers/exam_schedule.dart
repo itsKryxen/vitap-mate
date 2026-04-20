@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vitapmate/core/di/provider/clinet_provider.dart';
 import 'package:vitapmate/core/exceptions.dart';
@@ -40,7 +41,7 @@ class ExamSchedule extends _$ExamSchedule {
     var repo = await ref.read(examScheduleRepositoryProvider.future);
     var gb = await ref.read(gbProvider.future);
     var feature = gb.feature("fetch-exam-schedule");
-    if (feature.on && feature.value) {
+    if (kDebugMode || (feature.on && feature.value)) {
       var data = await UpdateExamScheduleUsecase(repo).call();
       return data;
     } else {

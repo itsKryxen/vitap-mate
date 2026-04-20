@@ -446,6 +446,10 @@ impl VtopClient {
                     self.session.set_authenticated(true);
                     return Ok(());
                 }
+                Err(VtopError::OtpRequired) => {
+                    self.session.set_authenticated(false);
+                    return Err(VtopError::OtpRequired);
+                }
                 Err(VtopError::AuthenticationFailed(msg)) if msg.contains("Invalid Captcha") => {
                     continue;
                 }
@@ -505,7 +509,10 @@ impl VtopClient {
             .await
             .map_err(|error| reqwest_network_error("perform_login.text", error))?;
 
-        if response_url.contains("error") {
+        if response_text.contains("An OTP has been sent") || response_text.contains("Additional verification required") || response_text.contains("verifyOTP") || response_text.contains("processOTP") {
+            self.current_page = Some(response_text);
+            return Err(VtopError::OtpRequired);
+        } else if response_url.contains("error") {
             if response_text.contains("Invalid Captcha") {
                 return Err(VtopError::AuthenticationFailed(
                     "Invalid Captcha".to_string(),
@@ -515,20 +522,122 @@ impl VtopClient {
             {
                 return Err(VtopError::InvalidCredentials);
             } else {
-                // Err(VtopError::AuthenticationFailed(Self::get_login_page_error(
-                //     &response_text,
-                // )))
                 return Err(VtopError::InvalidCredentials);
             }
         } else {
             self.current_page = Some(response_text);
-            self.extract_csrf_token()?;
-            self.get_regno()?;
+            
+            // Check if extracting regno fails, if so it might be an unhandled state or OTP page variant.
+            if let Err(e) = self.extract_csrf_token() {
+                return Err(e);
+            }
+            if let Err(_) = self.get_regno() {
+                // If we land here, it wasn't the dashboard! 
+                return Err(VtopError::OtpRequired); // Fallback to asking OTP just in case
+            }
 
             self.current_page = None;
             self.captcha_data = None;
             Ok(())
         }
+    }
+
+    pub async fn submit_otp(&mut self, otp: &str) -> VtopResult<()> {
+        // Extract the CSRF token from the saved OTP page
+        let csrf = {
+            let document = scraper::Html::parse_document(&self.current_page.as_ref().ok_or(
+                VtopError::ParseError("OTP page HTML was null or not saved properly".into()),
+            )?);
+            let selector = scraper::Selector::parse("input[name='_csrf']").unwrap();
+            document.select(&selector).next()
+                .and_then(|el| el.value().attr("value"))
+                .unwrap_or("")
+                .to_string()
+        };
+        
+        if csrf.is_empty() {
+            return Err(VtopError::ParseError("No CSRF token found in OTP page".into()));
+        }
+
+        // VTOP uses an AJAX endpoint for OTP verification (discovered from page JavaScript).
+        // The endpoint returns JSON: {"status":"SUCCESS","redirectUrl":"/vtop/content"} on success
+        // or {"status":"INVALID"} / {"status":"EXPIRED"} on failure.
+        let url = format!("{}/vtop/validateSecurityOtp", self.config.base_url);
+        
+        let form_params = vec![
+            ("_csrf", csrf.as_str()),
+            ("otpCode", otp),
+        ];
+        
+        let response = self.client.post(&url)
+            .form(&form_params)
+            .send()
+            .await
+            .map_err(|e| VtopError::AuthenticationFailed(format!("OTP POST to {} failed: {:?}", url, e)))?;
+        
+        let response_text = response.text().await
+            .map_err(|e| reqwest_network_error("submit_otp.text", e))?;
+        
+        // Parse the JSON response
+        // Expected: {"status":"SUCCESS","redirectUrl":"/vtop/content"}
+        if response_text.contains("\"SUCCESS\"") || response_text.contains("\"success\"") {
+            // OTP verified! Now follow the redirect URL to establish the authenticated session
+            let redirect_url = if response_text.contains("redirectUrl") {
+                // Try to extract redirectUrl from JSON
+                // Simple extraction without a JSON library
+                response_text
+                    .split("redirectUrl")
+                    .nth(1)
+                    .and_then(|s| s.split('"').nth(2))
+                    .map(|path| {
+                        if path.starts_with("http") {
+                            path.to_string()
+                        } else {
+                            format!("{}{}", self.config.base_url, path)
+                        }
+                    })
+                    .unwrap_or_else(|| format!("{}/vtop/content", self.config.base_url))
+            } else {
+                format!("{}/vtop/content", self.config.base_url)
+            };
+            
+            // Follow the redirect to establish authenticated session and get CSRF + authorizedIDX
+            let content_response = self.client.get(&redirect_url)
+                .send()
+                .await
+                .map_err(|e| VtopError::AuthenticationFailed(format!("Failed to follow redirect to {}: {:?}", redirect_url, e)))?;
+            
+            let content_url = content_response.url().to_string();
+            let content_text = content_response.text().await
+                .map_err(|e| reqwest_network_error("submit_otp.content", e))?;
+            
+            // Verify we actually landed on an authenticated page (not redirected back to login)
+            if content_url.contains("login") {
+                return Err(VtopError::ParseError(format!(
+                    "OTP was accepted but redirect landed on login page. URL: {}", content_url
+                )));
+            }
+            
+            // Extract CSRF token and authorizedIDX from the dashboard page
+            self.current_page = Some(content_text);
+            let _ = self.extract_csrf_token();
+            let _ = self.get_regno();
+            
+            self.current_page = None;
+            self.captcha_data = None;
+            self.session.set_authenticated(true);
+            return Ok(());
+        } else if response_text.contains("\"INVALID\"") || response_text.contains("\"invalid\"") {
+            return Err(VtopError::ParseError("Invalid OTP code. Please try again.".into()));
+        } else if response_text.contains("\"EXPIRED\"") || response_text.contains("\"expired\"") {
+            return Err(VtopError::ParseError("OTP has expired. Please request a new one.".into()));
+        }
+        
+        // Unknown response
+        Err(VtopError::ParseError(format!(
+            "Unexpected OTP response from server: {}", 
+            response_text.chars().take(300).collect::<String>()
+        )))
     }
     async fn load_login_page(&mut self, k: bool) -> VtopResult<()> {
         if k {

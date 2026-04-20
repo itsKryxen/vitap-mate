@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vitapmate/core/di/provider/clinet_provider.dart';
 import 'package:vitapmate/core/exceptions.dart';
@@ -33,7 +34,7 @@ class Marks extends _$Marks {
     var repo = await ref.read(marksRepositoryProvider.future);
     var gb = await ref.read(gbProvider.future);
     var feature = gb.feature("fetch-marks");
-    if (feature.on && feature.value) {
+    if (kDebugMode || (feature.on && feature.value)) {
       var data = await UpdateMarksUsecase(repo).call();
       return data;
     } else {

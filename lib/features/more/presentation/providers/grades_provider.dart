@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vitapmate/core/di/provider/clinet_provider.dart';
 import 'package:vitapmate/core/di/provider/vtop_user_provider.dart';
@@ -172,7 +173,7 @@ class GradesNotifier extends AsyncNotifier<GradesUiState> {
   }) async {
     final gb = await ref.read(gbProvider.future);
     final feature = gb.feature("fetch-grades");
-    if (feature.on && feature.value) {
+    if (kDebugMode || (feature.on && feature.value)) {
       await ref.read(vClientProvider.notifier).tryLogin();
       await UpdateGradeViewUsecase(repo).call();
       return true;
